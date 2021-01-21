@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+<!-- prettier-ignore -->
+{%  block body %}
+<div class="text-white">
+  <ol>
+    {% for note in object_list %}
+    <li><a href="{{ note.get_absolute_url }}">{{ note }}</a></li>
+    <p>{{note.writer}}</p>
+    {% endfor %}
+  </ol>
+</div>
+{% endblock %}
