@@ -29,6 +29,6 @@ class CustomUserDetailView(DetailView):
         context = super().get_context_data(*args, **kwargs)
         context["notes"] = notes_models.Note.objects.filter(writer=context["object"])
         context["followers"] = accounts_models.UserFollowing.objects.filter(
-            user_id=context["object"]
+            user=context["object"]
         ).count()
         return context
