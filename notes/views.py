@@ -29,10 +29,7 @@ class PrivateNotesView(ListView):
 
     model = models.Note
     template_name = "notes/private.html"
-<<<<<<< HEAD
-=======
 
->>>>>>> 176fcab4f04b81687e7b4cab634b7c730c37fd4d
 
 class PublicNotesView(ListView):
     """ This view will handle displaying of publicly available notes """

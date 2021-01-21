@@ -1,8 +1,9 @@
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
+from notes import models as notes_models
 
-from . import forms
+from . import forms, models
 
 
 class LoginView(auth_views.LoginView):
@@ -18,3 +19,12 @@ class CustomUserCreateView(CreateView):
     form_class = forms.RegistrationForm
     success_message = "You can now login with your new credentials"
     success_url = reverse_lazy("accounts:login")
+
+
+class CustomUserDetailView(DetailView):
+    model = models.CustomUser
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["notes"] = notes_models.Note.objects.filter(writer=context["object"])
+        return context
