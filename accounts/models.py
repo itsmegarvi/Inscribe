@@ -30,20 +30,22 @@ class CustomUser(AbstractUser):
         return f"{self.full_name()}'s account"
 
 
-class UserFollowing(models.Model):
+class CustomUserFollowing(models.Model):
 
-    user_id = models.ForeignKey(
-        "accounts.CustomUser", related_name="following", on_delete=models.CASCADE
+    user = models.ForeignKey(
+        "accounts.CustomUser", related_name="following", on_delete=models.CASCADE,
+        help_text=_('The user that is being followed')
     )
-    following_user_id = models.ForeignKey(
-        "accounts.CustomUser", related_name="followers", on_delete=models.CASCADE
+    follower = models.ForeignKey(
+        "accounts.CustomUser", related_name="followers", on_delete=models.CASCADE,
+        help_text=_('The user that is doing the following')
     )
     created = models.DateTimeField(auto_now_add=True, db_index=True)
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["user_id", "following_user_id"], name="unique_followers"
+                fields=["user", "follower"], name="unique_followers"
             )
         ]
 
