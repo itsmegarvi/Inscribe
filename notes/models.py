@@ -25,9 +25,15 @@ class Note(models.Model):
     hidden = models.BooleanField(
         default=False, help_text=_("Whether the file will be hidden")
     )
+    slug = models.SlugField(
+        max_length=200, unique=True
+    )
 
     class Meta:
         ordering = ["-published_at"]
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={'slug': self.slug})
