@@ -13,7 +13,7 @@ class Note(models.Model):
         on_delete=models.CASCADE,
         help_text=_("Author of the note"),
     )
-    published_at = models.DateTimeField(
+    created_at = models.DateTimeField(
         auto_now_add=True, help_text=_("The date and time the note was published at")
     )
     body = models.TextField(help_text=_("Main body of the note"))
@@ -32,7 +32,7 @@ class Note(models.Model):
     )
 
     class Meta:
-        ordering = ["-published_at"]
+        ordering = ["-created_at"]
 
     def __str__(self):
         return self.title
