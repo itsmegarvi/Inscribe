@@ -10,4 +10,6 @@ urlpatterns = [
     path("private/", views.PrivateNotesView.as_view(), name="private list"),
     path("public/", views.PublicNotesView.as_view(), name="public list"),
     path('<slug:slug>', views.NotesDetailView.as_view(), name="notes detail"),
+    path("drafts/", views.DraftView.as_view(), name="drafts"),
+
 ]
