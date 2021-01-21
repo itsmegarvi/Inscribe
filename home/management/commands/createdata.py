@@ -55,3 +55,18 @@ class Command(BaseCommand):
             for _ in range(instances)
         ]
         self.stdout.write(self.style.SUCCESS(f"\nCreated {instances} notes"))
+        super_user = CustomUser.objects.get(is_superuser=True)
+        user_notes = [  # noqa
+            notes_models.Note.objects.create(
+                title=fake.sentence(),
+                writer=super_user,
+                updated_at=fake.future_date(),
+                body=fake.post(size="large"),
+                draft=fake.boolean(chance_of_getting_true=75),
+                hidden=fake.boolean(chance_of_getting_true=25),
+            )
+            for _ in range(instances)
+        ]
+        self.stdout.write(
+            self.style.SUCCESS(f"\nCreated {instances} notes for superuser")
+        )
