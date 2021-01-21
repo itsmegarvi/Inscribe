@@ -43,7 +43,7 @@ class PublicNotesView(ListView):
     template_name = "notes/public.html"
 
 
-class DraftNotesView(ListView):
+class DraftView(ListView):
     """ This view will handle displaying draft notes """
 
     model = models.Note
