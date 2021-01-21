@@ -25,7 +25,7 @@ class Note(models.Model):
         auto_now=True, help_text=_("The date and time the note was updated at")
     )
     hidden = models.BooleanField(
-        default=False, help_text=_("Whether the file will be hidden")
+        default=False, help_text=_("Whether the file will be visible to other people")
     )
     slug = models.SlugField(
         max_length=200, unique=True, help_text=_("The unique slug to the note")

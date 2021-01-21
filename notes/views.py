@@ -14,6 +14,7 @@ class NotesListView(ListView):
     """ This view will handle displaying all the notes in the database """
 
     model = models.Note
+    paginate_by = 10
     template_name = "notes/list.html"
 
 
@@ -28,6 +29,8 @@ class PrivateNotesView(ListView):
     """ This view will handle displaying of private notes of the user. """
 
     model = models.Note
+    paginate_by = 10
+    queryset = models.Note.objects.filter(hidden = True).order_by("-updated_at")
     template_name = "notes/private.html"
 
 
@@ -35,4 +38,6 @@ class PublicNotesView(ListView):
     """ This view will handle displaying of publicly available notes """
 
     model = models.Note
+    paginate_by = 10
+    queryset = models.Note.objects.filter(hidden = False).order_by("-updated_at")
     template_name = "notes/public.html"
