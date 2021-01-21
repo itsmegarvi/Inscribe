@@ -1,6 +1,8 @@
 from django.db import models
+from django.urls import reverse
+from django.utils.text import slugify
 from django.utils.translation import gettext as _
-from django.urls import reverse 
+
 
 class Note(models.Model):
     title = models.CharField(
@@ -26,7 +28,7 @@ class Note(models.Model):
         default=False, help_text=_("Whether the file will be hidden")
     )
     slug = models.SlugField(
-        max_length=200, unique=True
+        max_length=200, unique=True, help_text=_("The unique slug to the note")
     )
 
     class Meta:
@@ -35,5 +37,9 @@ class Note(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
+
     def get_absolute_url(self):
-        return reverse('detail', kwargs={'slug': self.slug})
+        return reverse("detail", kwargs={"slug": self.slug})
