@@ -41,3 +41,12 @@ class PublicNotesView(ListView):
     paginate_by = 10
     queryset = models.Note.objects.filter(hidden = False).order_by("-updated_at")
     template_name = "notes/public.html"
+
+
+class DraftNotesView(ListView):
+    """ This view will handle displaying draft notes """
+
+    model = models.Note
+    paginate_by = 10
+    queryset = models.Note.objects.filter(draft = True).order_by("-updated_at")
+    template_name = "notes/drafts.html"
