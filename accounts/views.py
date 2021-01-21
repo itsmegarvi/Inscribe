@@ -3,7 +3,8 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView
 from notes import models as notes_models
 
-from . import forms, models
+from . import forms
+from . import models as accounts_models
 
 
 class LoginView(auth_views.LoginView):
@@ -22,9 +23,12 @@ class CustomUserCreateView(CreateView):
 
 
 class CustomUserDetailView(DetailView):
-    model = models.CustomUser
+    model = accounts_models.CustomUser
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["notes"] = notes_models.Note.objects.filter(writer=context["object"])
+        context["followers"] = accounts_models.UserFollowing.objects.filter(
+            user_id=context["object"]
+        ).count()
         return context
