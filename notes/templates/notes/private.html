@@ -4,6 +4,7 @@
   <ol>
     {% for note in object_list %}
     <li><a href="{{ note.get_absolute_url }}">{{ note }}</a></li>
+    <li>{{ note.created_at }}</li>
     {% endfor %}
   </ol>
 </div>
