@@ -31,8 +31,9 @@ INSTALLED_APPS = [
     "notes.apps.NotesConfig",
     # django add-ons
     "django_extensions",
+    "crispy_forms",
 ]
-
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
