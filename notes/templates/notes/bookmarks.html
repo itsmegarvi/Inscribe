@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{%  block body %}
+<div class="text-white">
+  <ol>
+    {% for note in object_list %}
+    <li><a href="{{ note.get_absolute_url }}">{{ note }}</a></li>
+    <p>{{note.writer}}</p>
+    <p>{{note.published_at}}</p>
+    {% endfor %}
+  </ol>
+</div>
+{% endblock %}
