@@ -6,7 +6,7 @@
     {% for note in object_list %}
     <li><a href="{{ note.get_absolute_url }}">{{ note }}</a></li>
     <p>{{note.writer}}</p>
-    <p>{{note.published_at}}</p>
+    <p>{{note.created_at}}</p>
     {% endfor %}
   </ol>
 </div>
