@@ -1,0 +1,24 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+{% load static %}
+{% block additional_css %}
+<link href="{% static 'home/css/discover.css' %}" rel="stylesheet" />
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block title %}
+Inscribe
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block body %}
+
+<div class="container d-flex text-white">
+  <div class="m-auto display-5 text-center flex-column">
+    <div class="my-5 text-info">Your profile</div>
+    <div class="my-5 text-info">Discover users</div>
+    <div class="my-5 text-info">Discover notes</div>
+  </div>
+</div>
+
+{% endblock %}
