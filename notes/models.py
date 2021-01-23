@@ -31,30 +31,29 @@ class Note(models.Model):
         max_length=200, unique=True, help_text=_("The unique slug to the note")
     )
 
+    class Meta:
+        ordering = ["-created_at"]
 
-class Meta:
-    ordering = ["-created_at"]
+    def __str__(self):
+        return self.title
 
-def __str__(self):
-    return self.title
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
 
-def save(self, *args, **kwargs):
-    self.slug = slugify(self.title)
-    return super().save(*args, **kwargs)
-
-def get_absolute_url(self):
-    return reverse("detail", kwargs={"slug": self.slug})
-
+    def get_absolute_url(self):
+        return reverse("detail", kwargs={"slug": self.slug})
 
 
 class Bookmark(models.Model):
     note = models.ForeignKey(
-        "notes.Note",
-        on_delete=models.CASCADE,
-        help_text=_("Note that is bookmarked")
+        "notes.Note", on_delete=models.CASCADE, help_text=_("Note that is bookmarked")
     )
     user = models.ForeignKey(
         "accounts.CustomUser",
         on_delete=models.CASCADE,
-        help_text=_("User deleted then so does this post")
+        help_text=_("User deleted then so does this post"),
     )
+
+    def __str__(self):
+        return f"Liked by {self.user.full_name()}"
