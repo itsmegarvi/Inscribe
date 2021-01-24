@@ -1,6 +1,6 @@
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, ListView
 from notes import models as notes_models
 
 from . import forms
@@ -32,3 +32,7 @@ class CustomUserDetailView(DetailView):
             user=context["object"]
         ).count()
         return context
+
+
+class CustomUserDiscoverView(ListView):
+    queryset = accounts_models.CustomUser.objects.all()[:10]
