@@ -23,7 +23,9 @@ Inscribe | Discover
     </div>
     {% endif %}
     <div class="my-5 p-2 rounded-lg text-info text-hover-color">
-      <strong>Discover users</strong>
+      <a href="{% url 'accounts:discover' %}">
+        <strong>Discover users</strong>
+      </a>
     </div>
     <div class="my-5 p-2 rounded-lg text-info text-hover-color">
       <strong>Discover notes</strong>
