@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+<!--prettier-ignore-->
+{% block body %}
+
+{% for comment in note_obj.comments.all %}
+    {{ comment.comment }}
+    <p> {{ posted_on | timesince}} ago </p>
+    {% for reply in comment.replies.all %}
+        {{ reply.comment }}
+        <p> {{ posted_on | timesince}} ago </p>
+    {% endfor %}
+{% endfor %}
+ 
