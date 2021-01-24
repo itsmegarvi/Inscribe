@@ -45,7 +45,7 @@ class Note(models.Model):
         return reverse("detail", kwargs={"slug": self.slug})
 
 
-class Comments(models.Model):
+class Comment(models.Model):
     note = models.ForeignKey(
         "notes.Note",
         on_delete=models.CASCADE,
@@ -63,7 +63,7 @@ class Comments(models.Model):
         help_text=_("The time comment was posted")
     )
     parent = models.ForeignKey(
-        'self',
+        'notes.Comment',
         null=True,
         blank=True,
         related_name="replies",
