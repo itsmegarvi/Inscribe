@@ -47,40 +47,32 @@ class Note(models.Model):
 
 class Comment(models.Model):
     note = models.ForeignKey(
-        "notes.Note",
-        on_delete=models.CASCADE,
-        related_name="comments"
+        "notes.Note", on_delete=models.CASCADE, related_name="comments"
     )
     user = models.ForeignKey(
         "accounts.CustomUser",
         on_delete=models.CASCADE,
     )
-    content = models.TextField(
-        help_text=_("The comment is written in here")
-    )
+    content = models.TextField(help_text=_("The comment is written in here"))
     posted_on = models.DateTimeField(
-        auto_now_add=True,
-        help_text=_("The time comment was posted")
+        auto_now_add=True, help_text=_("The time comment was posted")
     )
     parent = models.ForeignKey(
-        'notes.Comment',
+        "notes.Comment",
         null=True,
         blank=True,
         related_name="replies",
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
     active = models.BooleanField(
-        default="True",
-        help_text=_("Allows to remove unwanted comments via admin page")
+        default="True", help_text=_("Allows to remove unwanted comments via admin page")
     )
 
+    class Meta:
+        ordering = ["-posted_on"]
 
-class Meta:
-    ordering = ["-posted_on"]
-
-def __str__(self):
-    return 'Comment {} by {}'.format(self.user.username, self.body)
-
+    def __str__(self):
+        return "Comment {} by {}".format(self.user.username, self.body)
 
 
 class Bookmark(models.Model):
