@@ -2,3 +2,14 @@
   max-height: 80%;
   max-width: 80%;
 }
+.markdownx textarea {
+  resize: none;
+  max-height: 200px;
+}
+.markdownx-preview {
+  max-height: 200px;
+  height: 200px;
+  padding: 15px;
+  overflow: auto;
+  background-color: rgb(58, 99, 68);
+}

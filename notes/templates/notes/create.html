@@ -1,35 +1,22 @@
 <!-- prettier-ignore -->
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block additional_css %}
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css"
-/>
 <link rel="stylesheet" href="{% static 'notes/css/create.css' %}" />
 {% endblock %}
 
 <!-- prettier-ignore -->
 {% block title %}
-Inscribe
+Inscribe | New Note
 {% endblock %}
 
 <!-- prettier-ignore -->
 {% block body %}
-<div id="page-content-wrapper" class="">
-  <div id="sizer" class="m-auto">
-    <textarea id="markdown-editor"></textarea>
-  </div>
+<div class="text-white container p-5">
+  <form method="POST">
+    {% csrf_token %} {{ form | crispy }}
+    <input type="submit" value="New Note" class="btn btn-info btn-block mt-4" />
+  </form>
 </div>
-{% endblock %}
-
-<!-- prettier-ignore -->
-{% block additional_js %}
-<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-<script>
-  var simplemde = new SimpleMDE({
-    element: document.getElementById("markdown-editor"),
-    // toolbar: true,
-  });
-</script>
-{% endblock %}
+{{ form.media }} {% endblock %}
