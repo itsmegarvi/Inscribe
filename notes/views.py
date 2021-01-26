@@ -1,14 +1,22 @@
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import CreateView, DetailView, ListView
 from mixins import CustomLoginRequiredMixin
 
-from . import models
+from . import forms, models
 
 
 # DO NOT DISTRUB
-class NoteCreateView(TemplateView):
+class NoteCreateView(CustomLoginRequiredMixin, CreateView):
     """ This view will handle the creation of notes, and saving them to the database """
 
     template_name = "notes/create.html"
+    form_class = forms.CreateNoteForm
+
+    def form_valid(self, form, *args, **kwargs):
+        user = self.request.user
+        note = form.save(commit=False)
+        note.writer = user
+        note.save()
+        return super().form_valid(form, *args, **kwargs)
 
 
 class NotesListView(ListView):
