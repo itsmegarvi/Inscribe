@@ -6,4 +6,5 @@ urlpatterns = [
     path("", include("home.urls")),
     path("notes/", include("notes.urls")),
     path("accounts/", include("accounts.urls")),
+    path("markdownx/", include("markdownx.urls")),
 ]
