@@ -1,5 +1,6 @@
 import random
 
+from accounts import models as accounts_models
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils.translation import gettext
@@ -55,6 +56,7 @@ class Command(BaseCommand):
             for _ in range(instances)
         ]
         self.stdout.write(self.style.SUCCESS(f"\nCreated {instances} notes"))
+
         super_user = CustomUser.objects.get(is_superuser=True)
         user_notes = [  # noqa
             notes_models.Note.objects.create(
@@ -70,6 +72,7 @@ class Command(BaseCommand):
         self.stdout.write(
             self.style.SUCCESS(f"\nCreated {instances} notes for superuser")
         )
+
         user_bookmarks = [  # noqa
             notes_models.Bookmark.objects.create(
                 note=random.choice(notes), user=super_user
@@ -78,4 +81,15 @@ class Command(BaseCommand):
         ]
         self.stdout.write(
             self.style.SUCCESS(f"\nCreated {instances} bookmarks for superuser")
+        )
+
+        user_followers = []
+        for _ in range(instances):
+            follower = users.pop()
+            follower_object = accounts_models.CustomUserFollowing.objects.create(
+                user=super_user, follower=follower
+            )
+            user_followers.append(follower_object)
+        self.stdout.write(
+            self.style.SUCCESS(f"\nCreated {instances} followers for superuser")
         )
