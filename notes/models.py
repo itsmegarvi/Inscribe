@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
+from markdownx.utils import markdownify
 
 
 class Note(models.Model):
@@ -30,6 +31,11 @@ class Note(models.Model):
     slug = models.SlugField(
         max_length=200, unique=True, help_text=_("The unique slug to the note")
     )
+
+    # Create a property that returns the markdown instead
+    @property
+    def formatted_markdown(self):
+        return markdownify(self.body)
 
     class Meta:
         ordering = ["-created_at"]
