@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     # django add-ons
     "django_extensions",
     "crispy_forms",
+    "markdownx",
 ]
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 MIDDLEWARE = [
