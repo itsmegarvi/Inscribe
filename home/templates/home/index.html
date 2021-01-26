@@ -19,7 +19,7 @@ Inscribe
         <div class="text-center mx-auto">
           <img
             src="{% static 'images/logo.png' %}"
-            class="img-fluid mx-auto"
+            class="img-fluid mx-auto bg-warning rounded-lg shadow-lg my-3"
             alt="inscribe logo"
           />
         </div>
@@ -37,13 +37,19 @@ Inscribe
           </div>
         </div>
         <div class="text-center my-2">
-          <a class="btn btn-success">Get started</a>
+          <a
+            href="{% url 'accounts:register' %}"
+            style="font-size: 30px;"
+            class="btn btn-info m-2"
+          >
+            Get started
+          </a>
         </div>
       </div>
       <div class="col-sm">
         <img
           src="{% static 'images/landing-page.svg' %}"
-          class="img-fluid"
+          class="img-fluid mx-auto bg-warning rounded-lg shadow-lg p-5"
           alt="landing page picture"
         />
       </div>
