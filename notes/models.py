@@ -42,7 +42,7 @@ class Note(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse("detail", kwargs={"slug": self.slug})
+        return reverse("notes:detail", kwargs={"slug": self.slug})
 
 
 class Comment(models.Model):

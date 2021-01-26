@@ -10,3 +10,8 @@ class NoteAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 admin.site.register(models.Note, NoteAdmin)
+
+class BookmarkAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(models.Bookmark, BookmarkAdmin)
