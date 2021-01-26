@@ -1,4 +1,5 @@
 from django.views.generic import DetailView, ListView, TemplateView
+from mixins import CustomLoginRequiredMixin
 
 from . import models
 
@@ -29,7 +30,7 @@ class PrivateNotesView(ListView):
     """ This view will handle displaying of private notes of the user. """
 
     paginate_by = 10
-    queryset = models.Note.objects.filter(hidden = True).order_by("-updated_at")
+    queryset = models.Note.objects.filter(hidden=True).order_by("-updated_at")
     template_name = "notes/private.html"
 
 
@@ -37,7 +38,7 @@ class PublicNotesView(ListView):
     """ This view will handle displaying of publicly available notes """
 
     paginate_by = 10
-    queryset = models.Note.objects.filter(hidden = False).order_by("-updated_at")
+    queryset = models.Note.objects.filter(hidden=False).order_by("-updated_at")
     template_name = "notes/public.html"
 
 
@@ -45,20 +46,16 @@ class DraftView(ListView):
     """ This view will handle displaying draft notes """
 
     paginate_by = 10
-    queryset = models.Note.objects.filter(draft = True).order_by("-updated_at")
+    queryset = models.Note.objects.filter(draft=True).order_by("-updated_at")
     template_name = "notes/drafts.html"
 
 
-class BookmarkListView(ListView):
+class BookmarkListView(CustomLoginRequiredMixin, ListView):
     """ This view will handle display of bookmarks """
 
     paginate_by = 10
     template_name = "notes/bookmarks.html"
 
     def get_queryset(self, *args, **kwargs):
-        bookmarks = models.Bookmark.objects.filter(user = self.request.user)
-        notes = []
-        for bookmark in bookmarks:
-            notes.append(bookmark.note)
-        print(notes)
-        return notes
+        bookmarks = models.Bookmark.objects.filter(user=self.request.user)
+        return [bookmark.note for bookmark in bookmarks]
