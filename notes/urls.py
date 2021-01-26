@@ -9,8 +9,7 @@ urlpatterns = [
     path("list/", views.NotesListView.as_view(), name="list"),
     path("private/", views.PrivateNotesView.as_view(), name="private-list"),
     path("public/", views.PublicNotesView.as_view(), name="public-list"),
-    path('<slug:slug>/', views.NotesDetailView.as_view(), name="detail"),
+    path("bookmarks/", views.BookmarkListView.as_view(), name="bookmarks"),
     path("drafts/", views.DraftView.as_view(), name="drafts"),
-    path("bookmarks/", views.BookmarkListView.as_view(), name="bookmarks")
-
+    path("<slug:slug>/", views.NotesDetailView.as_view(), name="detail"),
 ]
