@@ -70,3 +70,12 @@ class Command(BaseCommand):
         self.stdout.write(
             self.style.SUCCESS(f"\nCreated {instances} notes for superuser")
         )
+        user_bookmarks = [  # noqa
+            notes_models.Bookmark.objects.create(
+                note=random.choice(notes), user=super_user
+            )
+            for _ in range(instances)
+        ]
+        self.stdout.write(
+            self.style.SUCCESS(f"\nCreated {instances} bookmarks for superuser")
+        )
