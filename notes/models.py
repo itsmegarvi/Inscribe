@@ -86,4 +86,4 @@ class Bookmark(models.Model):
     )
 
     def __str__(self):
-        return f"Liked by {self.user.full_name()}"
+        return f"{self.note} liked by {self.user.full_name()}"
