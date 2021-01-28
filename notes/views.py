@@ -1,10 +1,11 @@
+import random
+
 from django.views.generic import CreateView, DetailView, ListView
 from mixins import CustomLoginRequiredMixin
 
 from . import forms, models
 
 
-# DO NOT DISTRUB
 class NoteCreateView(CustomLoginRequiredMixin, CreateView):
     """ This view will handle the creation of notes, and saving them to the database """
 
@@ -22,9 +23,13 @@ class NoteCreateView(CustomLoginRequiredMixin, CreateView):
 class NotesListView(ListView):
     """ This view will handle displaying all the notes in the database """
 
-    model = models.Note
+    # model = models.Note
     paginate_by = 10
     template_name = "notes/list.html"
+
+    def get_queryset(self, *args, **kwargs):
+        qs = models.Note.objects.filter(hidden=False, draft=False)
+        return sorted(qs, key=lambda x: random.random())
 
 
 class NotesDetailView(DetailView):
