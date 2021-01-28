@@ -14,6 +14,12 @@ class Note(models.Model):
         on_delete=models.CASCADE,
         help_text=_("Author of the note"),
     )
+    description = models.CharField(
+        max_length=200,
+        help_text=_(
+            "A brief description of the note that will be displayed in the note preview."
+        ),
+    )
     created_at = models.DateTimeField(
         auto_now_add=True, help_text=_("The date and time the note was published at")
     )
