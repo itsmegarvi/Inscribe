@@ -52,6 +52,7 @@ class Command(BaseCommand):
                 body=fake.post(size="large"),
                 draft=fake.boolean(chance_of_getting_true=75),
                 hidden=fake.boolean(chance_of_getting_true=25),
+                description=fake.sentence(),
             )
             for _ in range(instances)
         ]
@@ -66,6 +67,7 @@ class Command(BaseCommand):
                 body=fake.post(size="large"),
                 draft=fake.boolean(chance_of_getting_true=75),
                 hidden=fake.boolean(chance_of_getting_true=25),
+                description=fake.sentence(),
             )
             for _ in range(instances)
         ]
