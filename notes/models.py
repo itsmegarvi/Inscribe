@@ -59,11 +59,15 @@ class Note(models.Model):
 
 class Comment(models.Model):
     note = models.ForeignKey(
-        "notes.Note", on_delete=models.CASCADE, related_name="comments"
+        "notes.Note",
+        on_delete=models.CASCADE,
+        related_name="comments",
+        help_text=_("The note this comment is made on on"),
     )
     user = models.ForeignKey(
         "accounts.CustomUser",
         on_delete=models.CASCADE,
+        help_text=_("The user who wrote this comment"),
     )
     content = models.TextField(help_text=_("The comment is written in here"))
     posted_on = models.DateTimeField(
@@ -75,16 +79,17 @@ class Comment(models.Model):
         blank=True,
         related_name="replies",
         on_delete=models.CASCADE,
+        help_text=_("Specify the parent if this comment is made as a reply"),
     )
     active = models.BooleanField(
-        default="True", help_text=_("Allows to remove unwanted comments via admin page")
+        default=True, help_text=_("Use this to remove unwanted comments via admin page")
     )
 
     class Meta:
         ordering = ["-posted_on"]
 
     def __str__(self):
-        return "Comment {} by {}".format(self.user.username, self.body)
+        return f"Comment on {self.note} by {self.user.full_name()}"
 
 
 class Bookmark(models.Model):
