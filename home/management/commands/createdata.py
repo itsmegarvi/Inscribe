@@ -75,6 +75,26 @@ class Command(BaseCommand):
             self.style.SUCCESS(f"\nCreated {instances} notes for superuser")
         )
 
+        user_comments = []
+        for _ in range(instances):
+            note = random.choice(user_notes)
+            parent = None
+            if user_comments and fake.boolean(chance_of_getting_true=50):
+                comments = notes_models.Comment.objects.filter(note=note)
+                if comments:
+                    parent = sorted(comments, key=lambda x: random.random())[0]
+            user_comment = notes_models.Comment.objects.create(
+                note=note,
+                user=random.choice(users),
+                content=fake.paragraph(),
+                active=fake.boolean(chance_of_getting_true=75),
+                parent=parent,
+            )
+            user_comments.append(user_comment)
+        self.stdout.write(
+            self.style.SUCCESS(f"\nCreated {instances} comments for superuser's notes")
+        )
+
         user_bookmarks = [  # noqa
             notes_models.Bookmark.objects.create(
                 note=random.choice(notes), user=super_user
