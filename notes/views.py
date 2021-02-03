@@ -39,7 +39,7 @@ class NotesDetailView(DetailView):
     template_name = "notes/detail.html"
 
 
-class PrivateNotesView(ListView):
+class PrivateListView(ListView):
     """ This view will handle displaying of private notes of the user. """
 
     paginate_by = 10
@@ -47,7 +47,7 @@ class PrivateNotesView(ListView):
     template_name = "notes/private.html"
 
 
-class PublicNotesView(ListView):
+class PublicListView(ListView):
     """ This view will handle displaying of publicly available notes """
 
     paginate_by = 10
@@ -55,7 +55,7 @@ class PublicNotesView(ListView):
     template_name = "notes/public.html"
 
 
-class DraftView(ListView):
+class DraftListView(ListView):
     """ This view will handle displaying draft notes """
 
     paginate_by = 10
