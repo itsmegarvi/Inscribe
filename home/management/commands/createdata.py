@@ -145,13 +145,20 @@ class Command(BaseCommand):
             )
         )
 
-        user_followers = []
-        for _ in range(instances):
-            follower = users.pop()
-            follower_object = accounts_models.CustomUserFollowing.objects.create(
+        user_followers = [  # noqa
+            accounts_models.CustomUserFollowing.objects.create(
                 user=super_user, follower=follower
             )
-            user_followers.append(follower_object)
+            for follower in users
+        ]
         self.stdout.write(
             self.style.SUCCESS(f"\nCreated {instances} followers for superuser")
         )
+
+        user_followed = [  # noqa
+            accounts_models.CustomUserFollowing.objects.create(
+                follower=super_user, user=user
+            )
+            for user in users
+        ]
+        self.stdout.write(self.style.SUCCESS(f"\nSuperuser followed {len(users)} users"))
