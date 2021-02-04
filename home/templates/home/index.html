@@ -1,23 +1,71 @@
 <!-- prettier-ignore -->
 {% extends 'base.html' %}
 {% load static %}
+{% block additional_css %}
+<link href="{% static 'home/css/index.css' %}" rel="stylesheet" />
+{% endblock %}
 
-{% block title %}Inscribe{% endblock %}
+<!-- prettier-ignore -->
+{% block title %}
+Inscribe
+{% endblock %}
 
+<!-- prettier-ignore -->
 {% block body %}
-<div
-  class="uk-child-width-expand@s uk-text-centeruk-grid-match uk-position-center"
-  uk-grid
->
-  <div class="uk-card uk-card-default uk-card-body">
-    <div
-      class="uk-text-bolder uk-text-large uk-text-uppercase uk-text-center uk-height-1-1"
-    >
-      <div class="uk-position-center">Inscribe</div>
+<div id="page-content-wrapper">
+  <div class="container-fluid min-vh-100 text-white">
+    <div class="align-items-center d-flex min-vh-100 row">
+      <div class="col-sm m-2">
+        <div class="text-center mx-auto">
+          <img
+            src="{% static 'images/logo.png' %}"
+            class="img-fluid mx-auto bg-warning rounded-lg shadow-lg my-3"
+            alt="inscribe logo"
+          />
+        </div>
+        <div>
+          <div class="text-center display-6 text-responsive">
+            <div>A web based note taking application.</div>
+            <div>
+              Which enables you to create notes, make diary entries, journal
+              records virtually available to you anytime.
+            </div>
+            <div>
+              Join us along with many others in making one of the worlds best
+              community.
+            </div>
+          </div>
+        </div>
+        {% if not user.is_authenticated %}
+        <div class="text-center my-2">
+          <a
+            href="{% url 'accounts:register' %}"
+            style="font-size: 30px"
+            class="btn btn-info m-2"
+          >
+            Get started
+          </a>
+        </div>
+        {% else %}
+        <div class="text-center my-2">
+          <a
+            href="{% url 'notes:create' %}"
+            style="font-size: 30px"
+            class="btn btn-info m-2"
+          >
+            Write a note
+          </a>
+        </div>
+        {% endif %}
+      </div>
+      <div class="col-sm">
+        <img
+          src="{% static 'images/landing-page.svg' %}"
+          class="img-fluid mx-auto bg-warning rounded-lg shadow-lg p-5"
+          alt="landing page picture"
+        />
+      </div>
     </div>
-  </div>
-  <div class="uk-card uk-card-default uk-card-body">
-    <img src="{% static 'images/notes.svg' %}" class="" alt="notes-svg" />
   </div>
 </div>
 {% endblock %}

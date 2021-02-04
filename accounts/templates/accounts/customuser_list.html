@@ -1,0 +1,30 @@
+<!-- prettier-ignore -->
+{% extends "base.html" %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/customuser_list.css' %}" />
+{% endblock %}
+<!-- prettier-ignore -->
+{%  block body %}
+<div class="container text-white">
+  {% for user in object_list %}
+  <div class="card w-100 my-4 color-dark-blue">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm d-flex flex-column p-3 justify-content-between">
+          <div class="border-bottom border-danger">
+            <h1 class="text-capitalize">
+              <strong>{{ user.full_name }}</strong>
+            </h1>
+            <h3>{{ user.email }}</h3>
+          </div>
+          <div class="py-3 text-justify">
+            Number of notes published: {{ user.note_set.count }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

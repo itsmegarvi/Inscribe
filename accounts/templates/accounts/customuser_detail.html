@@ -1,0 +1,34 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+{% load static %}
+{% block additional_css %}
+{% endblock %}
+<!-- prettier-ignore -->
+{% block title %}
+Inscribe | Account Information
+{% endblock %}
+
+{% block body %}
+<div class="container text-white">
+  <div class="mt-5">
+    <div class="card border-warning bg-dark mx-auto">
+      <div class="card-header">
+        <div class="display-6">{{ object.full_name }}</div>
+        <div>
+          <strong>{{ object.username }}</strong>
+        </div>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title ml-3">{{ object.email }}</h5>
+        <p class="card-text">Followers: {{followers}}</p>
+      </div>
+    </div>
+  </div>
+  <div>
+    {% for note in notes %}
+    <div>{{ note }}</div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

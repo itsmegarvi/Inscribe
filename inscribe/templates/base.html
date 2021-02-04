@@ -1,0 +1,40 @@
+<!-- prettier-ignore -->
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>{% block title %}Inscribe{% endblock %}</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
+    <link href="{% static 'css/base.css' %}" rel="stylesheet" />
+    {% block additional_css %}{% endblock %}
+  </head>
+
+  <body>
+    <div class="d-flex" id="wrapper">
+      <!-- prettier-ignore -->
+      {% block navbar %} {% include 'includes/navbar.html' %} {% endblock %}
+      {% block body %} {% endblock %}
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function toggleNavbar() {
+        const toggler = document.getElementById("wrapper");
+        toggler.classList.toggle("toggled");
+      }
+    </script>
+    {% block additional_js %}{% endblock %}
+  </body>
+</html>
