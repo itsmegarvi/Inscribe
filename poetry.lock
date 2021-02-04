@@ -277,7 +277,7 @@ python-versions = "*"
 
 [[package]]
 name = "mdgen"
-version = "0.1.7"
+version = "0.1.9"
 description = "A library to generate random markdown text"
 category = "dev"
 optional = false
@@ -791,8 +791,8 @@ mccabe = [
     {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
 ]
 mdgen = [
-    {file = "mdgen-0.1.7-py3-none-any.whl", hash = "sha256:b3fc564d5188d6aa1d4d0a953c2833943a9f70740491ddf68dbbd2d163406243"},
-    {file = "mdgen-0.1.7.tar.gz", hash = "sha256:4d04b90ccdc7ce39732ec777cbdb783a37f5112708f2b7e19b57291a1180596f"},
+    {file = "mdgen-0.1.9-py3-none-any.whl", hash = "sha256:028582f5baa35c2d7dcd945ef3abc5a8547edd44fd8ccbddc34dc79934c1c212"},
+    {file = "mdgen-0.1.9.tar.gz", hash = "sha256:388fd057ff30bd967f1b537136994e17ff698223bd4cbf1d476c1c8a01d22564"},
 ]
 mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},
