@@ -13,7 +13,7 @@ class Command(BaseCommand):
 
     help = gettext(
         "Create instances of accounts.CustomUser, notes.Note. "
-        "By default 15 instances of each are created. Can be changed by passing "
+        "By default 100 instances of each are created. Can be changed by passing "
         "the -i argument to the command."
     )
 
@@ -21,7 +21,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "-i",
             "--instances",
-            default=15,
+            default=100,
             dest="instances",
             help=gettext("The number of data instances to be created."),
         )
@@ -79,7 +79,7 @@ class Command(BaseCommand):
         for _ in range(instances):
             note = random.choice(user_notes)
             parent = None
-            if user_comments and fake.boolean(chance_of_getting_true=50):
+            if user_comments:
                 comments = notes_models.Comment.objects.filter(note=note)
                 if comments:
                     parent = sorted(comments, key=lambda x: random.random())[0]
@@ -92,17 +92,57 @@ class Command(BaseCommand):
             )
             user_comments.append(user_comment)
         self.stdout.write(
-            self.style.SUCCESS(f"\nCreated {instances} comments for superuser's notes")
+            self.style.SUCCESS(
+                f"\nCreated {instances} of parented comments for superuser's notes"
+            )
         )
 
-        user_bookmarks = [  # noqa
-            notes_models.Bookmark.objects.create(
-                note=random.choice(notes), user=super_user
+        user_comments_no_parent = [  # noqa
+            notes_models.Comment.objects.create(
+                note=random.choice(user_notes),
+                user=random.choice(users),
+                content=fake.paragraph(),
+                active=fake.boolean(chance_of_getting_true=75),
+                parent=parent,
             )
-            for _ in range(instances)
+            for _ in range(instances * 10)
         ]
         self.stdout.write(
-            self.style.SUCCESS(f"\nCreated {instances} bookmarks for superuser")
+            self.style.SUCCESS(
+                f"\nCreated {instances * 10} comments for superuser's notes"
+            )
+        )
+
+        user_bookmarks = []
+        for user_note in user_notes:
+            bookmarks = [
+                notes_models.Bookmark.objects.create(
+                    note=user_note, user=random.choice(users)
+                )
+                for _ in range(random.randint(1, 100))
+            ]
+            user_bookmarks.extend(bookmarks)
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"\nCreated {len(user_bookmarks)} bookmarks for superuser"
+            )
+        )
+
+        common_bookmarks = []
+        for note in notes:
+            bookmarks = [
+                notes_models.Bookmark.objects.create(
+                    note=note, user=random.choice(users)
+                )
+                for _ in range(random.randint(1, 100))
+            ]
+            common_bookmarks.extend(bookmarks)
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"\nCreated {len(common_bookmarks)} bookmarks for common users"
+            )
         )
 
         user_followers = []
