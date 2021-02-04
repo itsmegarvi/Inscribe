@@ -25,9 +25,8 @@ Inscribe | Account Information
     </div>
   </div>
   <div>
-    {% for note in notes %}
-    <div>{{ note }}</div>
-    {% endfor %}
+    <a href="{% url 'notes:public' %}">Your public notes</a>
+    <a href="{% url 'notes:private' %}">Your private notes</a>
   </div>
 </div>
 
