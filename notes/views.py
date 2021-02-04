@@ -38,6 +38,12 @@ class NotesDetailView(DetailView):
     model = models.Note
     template_name = "notes/detail.html"
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        note = context["object"]
+        context["comments"] = models.Comment.objects.filter(note=note)
+        return context
+
 
 class PrivateListView(ListView):
     """ This view will handle displaying of private notes of the user. """
