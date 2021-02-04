@@ -16,7 +16,11 @@ Inscribe | New Note
 <div class="text-white container p-5">
   <form method="POST">
     {% csrf_token %} {{ form | crispy }}
-    <input type="submit" value="New Note" class="btn btn-info btn-block mt-4" />
+    <input
+      type="submit"
+      value="Create New Note"
+      class="btn btn-info btn-block mt-4"
+    />
   </form>
 </div>
 {{ form.media }} {% endblock %}
