@@ -1,5 +1,6 @@
 import random
 
+from django.db.models import Count
 from django.views.generic import CreateView, DetailView, ListView
 from mixins import CustomLoginRequiredMixin
 
@@ -28,8 +29,12 @@ class NotesListView(ListView):
     template_name = "notes/list.html"
 
     def get_queryset(self, *args, **kwargs):
-        qs = models.Note.objects.filter(hidden=False, draft=False)
-        return sorted(qs, key=lambda x: random.random())
+        return (
+            models.Note.objects.annotate(count=Count("bookmark__id"))
+            .order_by("-count")
+            .filter(hidden=False, draft=False)
+        )
+        # return sorted(qs, key=lambda x: random.random())
 
 
 class NotesDetailView(DetailView):
@@ -41,7 +46,8 @@ class NotesDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         note = context["object"]
-        context["comments"] = models.Comment.objects.filter(note=note)
+        context["comments"] = models.Comment.objects.filter(note=note, active=True)
+        context["bookmarks"] = models.Bookmark.objects.filter(note=note).count()
         return context
 
 
