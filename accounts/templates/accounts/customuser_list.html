@@ -13,9 +13,9 @@
       <div class="row">
         <div class="col-sm d-flex flex-column p-3 justify-content-between">
           <div class="border-bottom border-danger">
-            <h1 class="text-capitalize">
-              <strong>{{ user.full_name }}</strong>
-            </h1>
+            <a href="{% url 'accounts:info' pk=user.pk %}" class="no-underline"> <h1 class="text-capitalize">
+              <strong >{{ user.full_name }}</strong>
+            </h1></a>
             <h3>{{ user.email }}</h3>
           </div>
           <div class="py-3 text-justify">
