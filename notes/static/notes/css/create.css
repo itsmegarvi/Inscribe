@@ -11,5 +11,13 @@
   height: 200px;
   padding: 15px;
   overflow: auto;
-  background-color: rgb(58, 99, 68);
+  background-color: rgb(31, 125, 148);
+}
+.markdownx-preview a {
+  color: rgb(223, 38, 38);
+}
+.markdownx-preview blockquote {
+  margin-left: 8px;
+  border-left: 5px solid black;
+  padding-left: 3px;
 }
