@@ -5,6 +5,9 @@ from django.views.generic import CreateView, DetailView, ListView
 from mixins import CustomLoginRequiredMixin
 
 from . import forms, models
+from .models import Note
+from .forms import CommentForm
+from django.shortcuts import render, get_object_or_404
 
 
 class NoteCreateView(CustomLoginRequiredMixin, CreateView):
@@ -37,18 +40,44 @@ class NotesListView(ListView):
         # return sorted(qs, key=lambda x: random.random())
 
 
-class NotesDetailView(DetailView):
-    """ This view will handle displaying the notes from the database """
+# class NotesDetailView(DetailView):
+#     """ This view will handle displaying the notes from the database """
 
-    model = models.Note
-    template_name = "notes/detail.html"
+#     model = models.Note
+#     template_name = "notes/detail.html"
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        note = context["object"]
-        context["comments"] = models.Comment.objects.filter(note=note, active=True)
-        context["bookmarks"] = models.Bookmark.objects.filter(note=note).count()
-        return context
+#     def get_context_data(self, *args, **kwargs):
+#         context = super().get_context_data(*args, **kwargs)
+#         note = context["object"]
+#         context["comments"] = models.Comment.objects.filter(note=note, active=True)
+#         context["bookmarks"] = models.Bookmark.objects.filter(note=note).count()
+#         return context
+
+def note_detail(request, slug):
+    template_name = 'notes/detail.html'
+    note = get_object_or_404(Note, slug=slug)
+    comments = Note.comments.filter(note=note, active=True)
+    bookmarks = Note.bookmarks.filter(note=note).count()
+    new_comment = None
+    # Comment posted
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+
+            # Create Comment object but don't save to database yet
+            new_comment = comment_form.save(commit=False)
+            # Assign the current post to the comment
+            new_comment.note = note
+            # Save the comment to the database
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
+
+    return render(request, template_name, {'note': note,
+                                           'comments': comments,
+                                           'bookmarks': bookmarks,
+                                           'new_comment': new_comment,
+                                           'comment_form': comment_form})
 
 
 class PrivateListView(ListView):
