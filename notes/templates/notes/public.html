@@ -2,12 +2,52 @@
 
 <!-- prettier-ignore -->
 {%  block body %}
-<div class="text-white">
-  <ol>
+<div class="container">
+  <div class="container">
     {% for note in object_list %}
-    <li><a href="{{ note.get_absolute_url }}">{{ note }}</a></li>
-    <p>{{note.writer}}</p>
+    <div class="card w-100 my-4 color-dark-blue">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm d-flex flex-column p-3 justify-content-between">
+            <div class="border-bottom border-danger">
+              <a href="{{ note.get_absolute_url }}">
+                <h2 class="text-capitalize">
+                  <strong>{{ note.title }}</strong>
+                </h2>
+              </a>
+              <h3 class="text-white">by {{ note.writer.full_name }}</h3>
+            </div>
+            <div class="text-truncate text-white">{{ note.description }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
     {% endfor %}
-  </ol>
+  </div>
+  <div class="pagination text-white d-flex">
+    <span class="step-links mx-auto border border-info rounded p-2">
+      {% if page_obj.has_previous %}
+      <a href="?page=1" class="m-2">
+        <i class="fa fa-backward"></i>
+      </a>
+      <a href="?page={{ page_obj.previous_page_number }}" class="m-1">
+        <i class="fa fa-arrow-left"></i>
+      </a>
+      {% endif %}
+
+      <span class="current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" class="m-2">
+        <i class="fa fa-arrow-right"></i>
+      </a>
+      <a href="?page={{ page_obj.paginator.num_pages }}" class="m-2">
+        <i class="fa fa-forward"></i>
+      </a>
+      {% endif %}
+    </span>
+  </div>
 </div>
 {% endblock %}
