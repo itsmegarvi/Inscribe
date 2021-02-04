@@ -91,6 +91,9 @@ class Comment(models.Model):
     def __str__(self):
         return f"Comment on {self.note} by {self.user.full_name()}"
 
+    def is_active(self):
+        return self.active
+
 
 class Bookmark(models.Model):
     note = models.ForeignKey(
