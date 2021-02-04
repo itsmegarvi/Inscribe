@@ -36,15 +36,27 @@ Inscribe
             </div>
           </div>
         </div>
+        {% if not user.is_authenticated %}
         <div class="text-center my-2">
           <a
             href="{% url 'accounts:register' %}"
-            style="font-size: 30px;"
+            style="font-size: 30px"
             class="btn btn-info m-2"
           >
             Get started
           </a>
         </div>
+        {% else %}
+        <div class="text-center my-2">
+          <a
+            href="{% url 'notes:create' %}"
+            style="font-size: 30px"
+            class="btn btn-info m-2"
+          >
+            Write a note
+          </a>
+        </div>
+        {% endif %}
       </div>
       <div class="col-sm">
         <img
