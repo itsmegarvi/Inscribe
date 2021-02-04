@@ -5,13 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DetailView,
-    ListView,
-    TemplateView,
-    UpdateView,
-)
+from django.views.generic import (CreateView, DetailView, ListView,
+                                  TemplateView, UpdateView)
 from mixins import CustomLoginRequiredMixin
 from notes import models as notes_models
 
@@ -82,3 +77,21 @@ class CustomUserPasswordChangeDoneView(
     CustomLoginRequiredMixin, auth_views.PasswordChangeDoneView
 ):
     template_name = "accounts/password-change-done.html"
+
+
+class FollowersView(CustomLoginRequiredMixin, ListView):
+    paginate_by = 15
+    template_name = "accounts/customuserfollowers_list.html"
+
+    def get_queryset(self, *args, **kwargs):
+        return accounts_models.CustomUserFollowing.objects.filter(user=self.request.user)
+
+
+class FollowingsView(CustomLoginRequiredMixin, ListView):
+    paginate_by = 15
+    template_name = "accounts/customuserfollowing_list.html"
+
+    def get_queryset(self, *args, **kwargs):
+        return accounts_models.CustomUserFollowing.objects.filter(
+            follower=self.request.user
+        )
