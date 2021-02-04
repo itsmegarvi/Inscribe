@@ -54,3 +54,13 @@ body {
 .no-underline {
   text-decoration: none !important;
 }
+
+.color-dark-blue {
+  background-color: black;
+  background-image: radial-gradient(
+      circle at top right,
+      rgba(54, 33, 82, 1),
+      transparent
+    ),
+    radial-gradient(circle at 20% 80%, rgba(41, 196, 255, 0.13), transparent);
+}
