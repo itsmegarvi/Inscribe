@@ -18,4 +18,10 @@ class BookmarkAdmin(admin.ModelAdmin):
 
 @admin.register(models.Comment)
 class CommentAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'content', 'note', 'posted_on', 'active')
+    list_filter = ('active', 'posted_on')
+    search_fields = ('user', 'content')
+    actions = ['approve_comments']
+
+    def approve_comments(self, request, queryset):
+        queryset.update(active=True)
