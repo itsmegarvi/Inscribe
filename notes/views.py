@@ -1,13 +1,13 @@
 import random
 
 from django.db.models import Count
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import CreateView, DetailView, ListView
 from mixins import CustomLoginRequiredMixin
 
 from . import forms, models
-from .models import Note
 from .forms import CommentForm
-from django.shortcuts import render, get_object_or_404
+from .models import Note
 
 
 class NoteCreateView(CustomLoginRequiredMixin, CreateView):
@@ -53,6 +53,7 @@ class NotesListView(ListView):
 #         context["bookmarks"] = models.Bookmark.objects.filter(note=note).count()
 #         return context
 
+<<<<<<< HEAD
 # def note_detail(request, slug):
 #     template_name = 'notes/detail.html'
 #     note = get_object_or_404(note, slug=slug)
@@ -83,20 +84,30 @@ class NotesListView(ListView):
 def NoteDetail(request,pk):
     post = get_object_or_404(Note, slug=slug)
     comments=models.Comment.objects.filter(note=note)
+=======
+
+def note_detail(request, slug):
+    note = get_object_or_404(Note, slug=slug)
+    comments = models.Comment.objects.filter(note=note, active=True)
+    bookmarks = models.Bookmark.objects.filter(note=note).count()
+>>>>>>> 505475209a0d762e25fed82f98b0118b3bc619f0
     if request.method == "POST":
         comment_form = CommentForm(request.POST or None)
         if comment_form.is_valid():
-            comment=comment_form.save(commit=False)
-            comment.note=note
+            comment = comment_form.save(commit=False)
+            comment.note = note
+            comment.user = request.user
             comment.save()
     else:
         comment_form = CommentForm()
-    context={
-        'note':note,
-        'comments':comments,
-        'comment_form':comment_form,
+    context = {
+        "note": note,
+        "comments": comments,
+        "bookmarks": bookmarks,
+        "comment_form": comment_form,
     }
-    return render(request, 'notes/detail.html', context)
+    return render(request, "notes/detail.html", context)
+
 
 class PrivateListView(ListView):
     """ This view will handle displaying of private notes of the user. """

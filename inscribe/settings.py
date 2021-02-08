@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -13,7 +14,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dummy")
 
 # SECURITY WARNING: don't run with debug turned on in production!
+<<<<<<< HEAD
 DEBUG = True 
+=======
+DEBUG = True
+>>>>>>> 505475209a0d762e25fed82f98b0118b3bc619f0
 
 ALLOWED_HOSTS = []
 
@@ -38,7 +43,7 @@ INSTALLED_APPS = [
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -132,23 +137,36 @@ if DEBUG:
     INSTALLED_APPS.append("django_extensions")
     RUNSERVERPLUS_SERVER_ADDRESS_PORT = "0.0.0.0:8000"
 
-
+DATABASES = {
+    "default": {
+        "ENGINE": os.environ.get("DJANGO_DATABASE_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("DJANGO_DATABASE_NAME", BASE_DIR / "db.sqlite3"),
+        "USER": os.environ.get("DJANGO_DATABASE_USER", "admin-user"),
+        "PASSWORD": os.environ.get("DJANGO_DATABASE_PASSWORD", "admin-password"),
+        "HOST": os.environ.get("DJANGO_DATABASE_HOST", "localhost"),
+        "PORT": "5432",
+    }
+}
 # Heroku: Update database configuration from $DATABASE_URL.
-
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+if not DEBUG:
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES["default"].update(db_from_env)
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 # The absolute path to the directory where collectstatic will collect static files for deployment.
-STATIC_ROOT = BASE_DIR / 'staticfiles'  #. os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / "staticfiles"  # . os.path.join(BASE_DIR, 'staticfiles')
 
 # The URL to use when referring to static files (where they will be served from)
+<<<<<<< HEAD
 STATIC_URL = '/static/'
 
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+=======
+STATIC_URL = "/static/"
+>>>>>>> 505475209a0d762e25fed82f98b0118b3bc619f0
