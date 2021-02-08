@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.db.models import Count
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import CreateView, ListView
 from mixins import CustomLoginRequiredMixin
@@ -110,3 +111,20 @@ class BookmarkListView(CustomLoginRequiredMixin, ListView):
     def get_queryset(self, *args, **kwargs):
         bookmarks = models.Bookmark.objects.filter(user=self.request.user)
         return [bookmark.note for bookmark in bookmarks]
+
+
+def toggle_bookmark_view(request):
+    user = request.user
+    print(request.POST)
+    try:
+        models.Bookmark.objects.get(
+            user=user, note__id=request.POST.get("note_id")
+        ).delete()
+        status = False
+        message = "Your bookmark was removed successfully!"
+    except models.Bookmark.DoesNotExist:
+        note = models.Note.objects.get(id=request.POST.get("note_id"))
+        models.Bookmark.objects.create(user=user, note=note)
+        status = True
+        message = "The note was bookmarked successfully!"
+    return JsonResponse({"status": status, "message": message})
