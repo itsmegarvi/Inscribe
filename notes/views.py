@@ -41,20 +41,6 @@ class NotesListView(ListView):
         # return sorted(qs, key=lambda x: random.random())
 
 
-# class NotesDetailView(DetailView):
-#     """ This view will handle displaying the notes from the database """
-
-#     model = models.Note
-#     template_name = "notes/detail.html"
-
-#     def get_context_data(self, *args, **kwargs):
-#         context = super().get_context_data(*args, **kwargs)
-#         note = context["object"]
-#         context["comments"] = models.Comment.objects.filter(note=note, active=True)
-#         context["bookmarks"] = models.Bookmark.objects.filter(note=note).count()
-#         return context
-
-
 def note_detail(request, slug):
     note = get_object_or_404(Note, slug=slug)
     comments = models.Comment.objects.filter(note=note, active=True)

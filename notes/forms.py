@@ -16,4 +16,5 @@ class CreateNoteForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = models.Comment
-        fields = ("user", "content")
+        fields = ("content",)
+        widgets = {"content": forms.Textarea(attrs={"style": "resize: none;"})}
