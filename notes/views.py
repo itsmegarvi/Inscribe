@@ -81,7 +81,7 @@ class NotesListView(ListView):
 
 
 def NoteDetail(request,pk):
-    post = get_object_or_404(Note, pk=pk)
+    post = get_object_or_404(Note, slug=slug)
     comments=models.Comment.objects.filter(note=note)
     if request.method == "POST":
         comment_form = CommentForm(request.POST or None)
