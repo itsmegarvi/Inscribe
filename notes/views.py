@@ -40,6 +40,12 @@ class NotesListView(ListView):
 
 
 def note_detail(request, slug):
+    """This view will display a note and then all the comments associated
+    with it. A form to post a comment on the note will be available only to
+    logged in users. On submission, the page will be reloaded with either a
+    success or an error message depending on whether the comment was
+    posted successfully."""
+
     note = get_object_or_404(Note, slug=slug)
     comments = models.Comment.objects.filter(note=note, active=True)
     bookmarks = models.Bookmark.objects.filter(note=note).count()
@@ -53,6 +59,8 @@ def note_detail(request, slug):
             messages.add_message(
                 request, messages.SUCCESS, "Your comment was posted successfully!"
             )
+            # reset the form to make sure that the previously filled in data is
+            # not re-rendered
             comment_form = CommentForm()
         else:
             messages.add_message(
