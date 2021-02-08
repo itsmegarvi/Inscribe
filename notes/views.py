@@ -80,9 +80,9 @@ class NotesListView(ListView):
 #                                            'comment_form': comment_form})
 
 
-def NoteDetail(request, slug):
+def note_detail(request, slug):
     note = get_object_or_404(Note, slug=slug)
-    comments = models.Comment.objects.filter(note=note)
+    comments = models.Comment.objects.filter(note=note, active=True)
     if request.method == "POST":
         comment_form = CommentForm(request.POST or None)
         if comment_form.is_valid():
