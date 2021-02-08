@@ -43,48 +43,50 @@
   <div class="p-5 p-sm-5 markdown-content">
     {{ note.formatted_markdown | safe }}
   </div>
-  <!-- {% if request.user.is_authenticated %} -->
   <div class="card-body">
-  <div class="comment p-5">
-    {% if new_comment %}
-    <div class="alert alert-danger" role="alert">
-      Your comment is awaiting moderation
-    </div>
-    {% else %}
-    <h3>Add Your Comment</h3>
-    <form method="post" class="mt-3">
-      {{ comment_form | crispy }} {% csrf_token %}
-      <button type="submit" class="btn btn-primary btn-block my-2">Post</button>
-    </form>
-    {% endif %}
-  </div>
-  <!-- {% endif %} -->
-
-  <div class="comment-section p-3 m-4">
-    <div class="h4 p-2">{{ comments.count }} comment(s)</div>
-    <!-- prettier-ignore -->
-    {% if comments %}
-    {% for comment in comments %}
-    {% if comment.is_active %}
-    <div class="shadow-lg p-2 rounded-lg my-4">
-      <div class="row">
-        <div class="col-sm text-info" style="font-size: larger">
-          {{ comment.user.full_name }}
-        </div>
-        <div class="col-sm ml-5 align-self-center">
-          {{ comment.posted_on | timesince }} ago
-        </div>
+    <div class="comment p-5">
+      <h3>Add Your Comment</h3>
+      {% if not user.is_authenticated %}
+      <div class="alert alert-danger" role="alert">
+        You need to be <a href="{% url 'accounts:login' %}">logged</a> in to
+        post a comment.
       </div>
-      <div class="mt-3" style="font-size: large">{{ comment.content }}</div>
+      {% else %}
+      <form method="post" class="mt-3">
+        {{ comment_form | crispy }} {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-block my-2">
+          Post
+        </button>
+      </form>
+      {% endif %}
     </div>
-    <!-- prettier-ignore -->
-    {% endif %}
-    {% endfor %}
-    {% else %}
-    <div class="shadow-lg p-2 rounded-lg text-danger display-6">
-      No comments, be the first one to comment!
+
+    <div class="comment-section p-3 m-4">
+      <div class="h4 p-2">{{ comments.count }} comment(s)</div>
+      <!-- prettier-ignore -->
+      {% if comments %}
+      {% for comment in comments %}
+      {% if comment.is_active %}
+      <div class="shadow-lg p-2 rounded-lg my-4">
+        <div class="row">
+          <div class="col-sm text-info" style="font-size: larger">
+            {{ comment.user.full_name }}
+          </div>
+          <div class="col-sm ml-5 align-self-center">
+            {{ comment.posted_on | timesince }} ago
+          </div>
+        </div>
+        <div class="mt-3" style="font-size: large">{{ comment.content }}</div>
+      </div>
+      <!-- prettier-ignore -->
+      {% endif %}
+      {% endfor %}
+      {% else %}
+      <div class="shadow-lg p-2 rounded-lg text-danger display-6">
+        No comments, be the first one to comment!
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
   </div>
+  {% endblock %}
 </div>
-{% endblock %}
