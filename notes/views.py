@@ -1,4 +1,5 @@
 import random
+from django.http import HttpResponse
 
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, render
@@ -59,12 +60,14 @@ def note_detail(request, slug):
     comments = models.Comment.objects.filter(note=note, active=True)
     bookmarks = models.Bookmark.objects.filter(note=note).count()
     if request.method == "POST":
-        comment_form = CommentForm(request.POST or None)
-        if comment_form.is_valid():
-            comment = comment_form.save(commit=False)
-            comment.note = note
-            comment.user = request.user
-            comment.save()
+            if not request.user.is_authenticated:
+               return HttpResponse("Please do login")
+            comment_form = CommentForm(request.POST or None)
+            if comment_form.is_valid():
+               comment = comment_form.save(commit=False)
+               comment.note = note
+               comment.user = request.user
+               comment.save()
     else:
         comment_form = CommentForm()
     context = {
