@@ -14,11 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dummy")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-<<<<<<< HEAD
-DEBUG = True 
-=======
-DEBUG = True
->>>>>>> 505475209a0d762e25fed82f98b0118b3bc619f0
+DEBUG = os.environ.get("INSCRIBE_DEBUG", False) != "1"
 
 ALLOWED_HOSTS = []
 
@@ -160,13 +156,4 @@ if not DEBUG:
 STATIC_ROOT = BASE_DIR / "staticfiles"  # . os.path.join(BASE_DIR, 'staticfiles')
 
 # The URL to use when referring to static files (where they will be served from)
-<<<<<<< HEAD
-STATIC_URL = '/static/'
-
-
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-=======
 STATIC_URL = "/static/"
->>>>>>> 505475209a0d762e25fed82f98b0118b3bc619f0

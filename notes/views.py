@@ -53,44 +53,11 @@ class NotesListView(ListView):
 #         context["bookmarks"] = models.Bookmark.objects.filter(note=note).count()
 #         return context
 
-<<<<<<< HEAD
-# def note_detail(request, slug):
-#     template_name = 'notes/detail.html'
-#     note = get_object_or_404(note, slug=slug)
-#     comments = note.comments.filter(note=note, active=True)
-#     #bookmarks = Note.bookmarks.filter(note=note).count()
-#     new_comment = None
-#     # Comment posted
-#     if request.method == 'POST':
-#         comment_form = CommentForm(data=request.POST)
-#         if comment_form.is_valid():
-
-#             # Create Comment object but don't save to database yet
-#             new_comment = comment_form.save(commit=False)
-#             # Assign the current post to the comment
-#             new_comment.note = note
-#             # Save the comment to the database
-#             new_comment.save()
-#     else:
-#         comment_form = CommentForm()
-
-#     return render(request, template_name, {'note': note,
-#                                            'comments': comments,
-#                                            #'bookmarks': bookmarks,
-#                                            'new_comment': new_comment,
-#                                            'comment_form': comment_form})
-
-
-def NoteDetail(request,pk):
-    post = get_object_or_404(Note, slug=slug)
-    comments=models.Comment.objects.filter(note=note)
-=======
 
 def note_detail(request, slug):
     note = get_object_or_404(Note, slug=slug)
     comments = models.Comment.objects.filter(note=note, active=True)
     bookmarks = models.Bookmark.objects.filter(note=note).count()
->>>>>>> 505475209a0d762e25fed82f98b0118b3bc619f0
     if request.method == "POST":
         comment_form = CommentForm(request.POST or None)
         if comment_form.is_valid():
