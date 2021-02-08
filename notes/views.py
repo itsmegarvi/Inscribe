@@ -1,9 +1,7 @@
-import random
-from django.http import HttpResponse
-
+from django.contrib import messages
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, ListView
 from mixins import CustomLoginRequiredMixin
 
 from . import forms, models
@@ -46,14 +44,20 @@ def note_detail(request, slug):
     comments = models.Comment.objects.filter(note=note, active=True)
     bookmarks = models.Bookmark.objects.filter(note=note).count()
     if request.method == "POST":
-            if not request.user.is_authenticated:
-                pass
-            comment_form = CommentForm(request.POST or None)
-            if comment_form.is_valid():
-               comment = comment_form.save(commit=False)
-               comment.note = note
-               comment.user = request.user
-               comment.save()
+        comment_form = CommentForm(request.POST or None)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.note = note
+            comment.user = request.user
+            comment.save()
+            messages.add_message(
+                request, messages.SUCCESS, "Your comment was posted successfully!"
+            )
+            comment_form = CommentForm()
+        else:
+            messages.add_message(
+                request, messages.ERROR, "There was an error, please try again..."
+            )
     else:
         comment_form = CommentForm()
     context = {
