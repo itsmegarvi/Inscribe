@@ -47,7 +47,7 @@ def note_detail(request, slug):
     bookmarks = models.Bookmark.objects.filter(note=note).count()
     if request.method == "POST":
             if not request.user.is_authenticated:
-               return HttpResponse("Please do login")
+                pass
             comment_form = CommentForm(request.POST or None)
             if comment_form.is_valid():
                comment = comment_form.save(commit=False)
