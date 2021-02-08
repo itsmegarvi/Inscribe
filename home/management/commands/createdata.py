@@ -7,6 +7,7 @@ from django.utils.translation import gettext
 from faker import Faker
 from mdgen import MarkdownPostProvider
 from notes import models as notes_models
+from django.conf import settings
 
 
 class Command(BaseCommand):
@@ -27,6 +28,10 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        if settings.DEBUG != True:
+            self.stdout.write(self.style.ERROR(f"This command can not be used in a production environment"))
+            exit()
+
         instances = int(options["instances"])
 
         fake = Faker()
