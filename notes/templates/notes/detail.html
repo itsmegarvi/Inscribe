@@ -43,7 +43,7 @@
   <div class="p-5 p-sm-5 markdown-content">
     {{ note.formatted_markdown | safe }}
   </div>
-  {% if request.user.is_authenticated %}
+  <!-- {% if request.user.is_authenticated %} -->
   <div class="card-body">
   <div class="comment p-5">
     {% if new_comment %}
@@ -58,7 +58,7 @@
     </form>
     {% endif %}
   </div>
-  {% endif %}
+  <!-- {% endif %} -->
 
   <div class="comment-section p-3 m-4">
     <div class="h4 p-2">{{ comments.count }} comment(s)</div>
