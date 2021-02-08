@@ -42,6 +42,20 @@
   <div class="p-5 p-sm-5 markdown-content">
     {{ note.formatted_markdown | safe}}
   </div>
+  <div class="card-body">
+    {% if new_comment %}
+    <div class="alert alert-success" role="alert">
+      Your comment is awaiting moderation
+    </div>
+    {% else %}
+    <h3>Add Your Comment</h3>
+    <form method="post" style="margin-top: 1.3em;">
+      {{ comment_form.as_p }}
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary  btn-lg">Post</button>
+    </form>
+    {% endif %}
+  </div>
 
   <div class="comment-section p-3 m-4">
     <div class="h4 p-2">{{ comments.count }} comment(s)</div>

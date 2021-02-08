@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# This script will be used to spin up the development servers for all the Inscribe applications
+
+# change to the project folder
+cd "$HOME/Inscribe"
+
+
+# Start all the servers
+poetry run python3 manage.py runserver_plus
+
