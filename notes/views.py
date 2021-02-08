@@ -56,7 +56,7 @@ class NotesListView(ListView):
 def note_detail(request, slug):
     template_name = 'notes/detail.html'
     note = get_object_or_404(Note, slug=slug)
-    comments = Note.comments.filter(note=note, active=True)
+    comments = note.comments.filter(note=note, active=True)
     bookmarks = Note.bookmarks.filter(note=note).count()
     new_comment = None
     # Comment posted
