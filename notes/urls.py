@@ -11,5 +11,5 @@ urlpatterns = [
     path("public/", views.PublicListView.as_view(), name="public"),
     path("bookmarks/", views.BookmarkListView.as_view(), name="bookmarks"),
     path("drafts/", views.DraftListView.as_view(), name="drafts"),
-    path("<slug:slug>/", views.NoteDetail, name="detail"),
+    path("<slug:slug>/", views.note_detail, name="detail"),
 ]
