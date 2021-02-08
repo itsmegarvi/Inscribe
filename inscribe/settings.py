@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import dj_database_url
 
@@ -9,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "2n!kb9!(28!i0wkpksg88mfg0(4u7737sin5f2smx3owsc(pq$"
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dummy")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,7 +32,6 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "notes.apps.NotesConfig",
     # django add-ons
-    "django_extensions",
     "crispy_forms",
     "markdownx",
 ]
@@ -128,6 +128,7 @@ if DEBUG:
     ALLOWED_HOSTS += ["*"]
     CORS_ALLOW_ALL_ORIGINS = True
     SHELL_PLUS = "ipython"
+    INSTALLED_APPS.append("django_extensions")
     RUNSERVERPLUS_SERVER_ADDRESS_PORT = "0.0.0.0:8000"
 
 
