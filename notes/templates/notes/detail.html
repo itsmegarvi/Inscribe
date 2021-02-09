@@ -41,7 +41,9 @@
     </div>
     <div class="display-6 text-right">
       <span class="h3">~ by</span>
-      <em class="text-pink">{{ note.writer.full_name }}</em>
+      <a href="{% url 'accounts:info' pk=note.writer.pk %}">
+        <em>{{ note.writer.full_name }}</em>
+      </a>
     </div>
   </div>
   <div class="text-right">
@@ -50,7 +52,7 @@
   <div class="p-5 p-sm-5 markdown-content">
     {{ note.formatted_markdown | safe }}
   </div>
-  <form style="display: none">
+  <form class="d-none">
     <input id="note-id" value="{{ note.id }}" />
     <input id="is-authenticated" value="{{ user.is_authenticated }}" />
   </form>
