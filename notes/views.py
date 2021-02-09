@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -6,8 +7,8 @@ from django.views.generic import CreateView, ListView
 from mixins import CustomLoginRequiredMixin
 
 from . import forms, models
-from .forms import CommentForm
-from .models import Note
+
+USER_MODEL = get_user_model()
 
 
 class NoteCreateView(CustomLoginRequiredMixin, CreateView):
@@ -47,7 +48,7 @@ def note_detail(request, slug):
     success or an error message depending on whether the comment was
     posted successfully."""
 
-    note = get_object_or_404(Note, slug=slug)
+    note = get_object_or_404(models.Note, slug=slug)
     comments = models.Comment.objects.filter(note=note, active=True)
     bookmarks = models.Bookmark.objects.filter(note=note).count()
     user = request.user
@@ -60,7 +61,7 @@ def note_detail(request, slug):
     else:
         buttonClass = "text-info"
     if request.method == "POST":
-        comment_form = CommentForm(request.POST or None)
+        comment_form = forms.CommentForm(request.POST or None)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.note = note
@@ -71,13 +72,13 @@ def note_detail(request, slug):
             )
             # reset the form to make sure that the previously filled in data is
             # not re-rendered
-            comment_form = CommentForm()
+            comment_form = forms.CommentForm()
         else:
             messages.add_message(
                 request, messages.ERROR, "There was an error, please try again..."
             )
     else:
-        comment_form = CommentForm()
+        comment_form = forms.CommentForm()
     context = {
         "note": note,
         "comments": comments,
@@ -119,7 +120,9 @@ class BookmarkListView(CustomLoginRequiredMixin, ListView):
     template_name = "notes/bookmarks.html"
 
     def get_queryset(self, *args, **kwargs):
-        bookmarks = models.Bookmark.objects.filter(user=self.request.user)
+        user_id = self.kwargs.get("pk")
+        user = USER_MODEL.objects.get(id=user_id)
+        bookmarks = models.Bookmark.objects.filter(user=user)
         return [bookmark.note for bookmark in bookmarks]
 
 
