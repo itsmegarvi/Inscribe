@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.contrib.auth import get_user_model
 from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -7,8 +6,8 @@ from django.views.generic import CreateView, ListView
 from mixins import CustomLoginRequiredMixin
 
 from . import forms, models
-
-USER_MODEL = get_user_model()
+from .forms import CommentForm
+from .models import Note
 
 
 class NoteCreateView(CustomLoginRequiredMixin, CreateView):
@@ -28,16 +27,22 @@ class NoteCreateView(CustomLoginRequiredMixin, CreateView):
 class NotesListView(ListView):
     """ This view will handle displaying all the notes in the database """
 
-    # model = models.Note
+    model = models.Note
     paginate_by = 10
     template_name = "notes/list.html"
 
-    def get_queryset(self, *args, **kwargs):
-        return (
-            models.Note.objects.annotate(count=Count("bookmark__id"))
-            .order_by("-count")
-            .filter(hidden=False, draft=False)
-        )
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            object_list = self.model.objects.filter(title__icontains=query)
+            return object_list
+        else:
+            return (
+                models.Note.objects.annotate(count=Count("bookmark__id"))
+                .order_by("-count")
+                .filter(hidden=False, draft=False)
+                )
+        # return sorted(qs, key=lambda x: random.random())
 
 
 def note_detail(request, slug):
@@ -47,7 +52,7 @@ def note_detail(request, slug):
     success or an error message depending on whether the comment was
     posted successfully."""
 
-    note = get_object_or_404(models.Note, slug=slug)
+    note = get_object_or_404(Note, slug=slug)
     comments = models.Comment.objects.filter(note=note, active=True)
     bookmarks = models.Bookmark.objects.filter(note=note).count()
     user = request.user
@@ -60,7 +65,7 @@ def note_detail(request, slug):
     else:
         buttonClass = "text-info"
     if request.method == "POST":
-        comment_form = forms.CommentForm(request.POST or None)
+        comment_form = CommentForm(request.POST or None)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.note = note
@@ -71,13 +76,13 @@ def note_detail(request, slug):
             )
             # reset the form to make sure that the previously filled in data is
             # not re-rendered
-            comment_form = forms.CommentForm()
+            comment_form = CommentForm()
         else:
             messages.add_message(
                 request, messages.ERROR, "There was an error, please try again..."
             )
     else:
-        comment_form = forms.CommentForm()
+        comment_form = CommentForm()
     context = {
         "note": note,
         "comments": comments,
@@ -92,28 +97,17 @@ class PrivateListView(ListView):
     """ This view will handle displaying of private notes of the user. """
 
     paginate_by = 10
+    queryset = models.Note.objects.filter(hidden=True).order_by("-updated_at")
     template_name = "notes/private.html"
 
-    def get_queryset(self, *args, **kwargs):
-        user_id = self.kwargs.get("pk")
-        user = USER_MODEL.objects.get(id=user_id)
-        return models.Note.objects.filter(hidden=True, writer=user).order_by(
-            "-updated_at"
-        )
 
 
 class PublicListView(ListView):
     """ This view will handle displaying of publicly available notes """
 
     paginate_by = 10
+    queryset = models.Note.objects.filter(hidden=False).order_by("-updated_at")
     template_name = "notes/public.html"
-
-    def get_queryset(self, *args, **kwargs):
-        user_id = self.kwargs.get("pk")
-        user = USER_MODEL.objects.get(id=user_id)
-        return models.Note.objects.filter(hidden=False, writer=user).order_by(
-            "-updated_at"
-        )
 
 
 class DraftListView(ListView):
@@ -131,9 +125,7 @@ class BookmarkListView(CustomLoginRequiredMixin, ListView):
     template_name = "notes/bookmarks.html"
 
     def get_queryset(self, *args, **kwargs):
-        user_id = self.kwargs.get("pk")
-        user = USER_MODEL.objects.get(id=user_id)
-        bookmarks = models.Bookmark.objects.filter(user=user)
+        bookmarks = models.Bookmark.objects.filter(user=self.request.user)
         return [bookmark.note for bookmark in bookmarks]
 
 

@@ -42,7 +42,18 @@ class CustomUserDetailView(DetailView):
 
 
 class CustomUserDiscoverView(ListView):
-    queryset = accounts_models.CustomUser.objects.all()[:10]
+
+    model = accounts_models.CustomUser
+    paginate_by=20
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            object_list = self.model.objects.filter(first_name__icontains=query                )
+            return object_list
+        else:
+            return (
+                accounts_models.CustomUser.objects.all()[:10]                )
 
 
 class ProfileView(CustomLoginRequiredMixin, TemplateView):
