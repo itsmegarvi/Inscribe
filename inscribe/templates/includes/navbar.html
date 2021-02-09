@@ -8,8 +8,14 @@
   >
     <a href="{% url 'home:index' %}" class="no-underline">
       <div class="text-center pt-3 text-uppercase text-responsive">
-        <b class="text-warning d-none d-sm-block">Inscribe</b>
-        <b class="text-warning d-block d-sm-none">Logo</b>
+        <div class="text-warning m-2">
+          <img
+            src="{% static 'images/logo.svg' %}"
+            class="img-fluid"
+            alt="inscribe logo"
+          />
+          <div class="text-warning d-none d-sm-block">Inscribe</div>
+        </div>
       </div>
     </a>
     <div
