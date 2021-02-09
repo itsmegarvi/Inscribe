@@ -6,3 +6,10 @@
   margin-right: auto;
   padding: 10px;
 }
+.button-liked {
+  color: #ff0000 !important;
+}
+#heart-icon:hover {
+  transform: scale(1.5);
+  color: #720505 !important;
+}

@@ -1,13 +1,13 @@
 import random
 
 from accounts import models as accounts_models
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils.translation import gettext
 from faker import Faker
 from mdgen import MarkdownPostProvider
 from notes import models as notes_models
-from django.conf import settings
 
 
 class Command(BaseCommand):
@@ -28,9 +28,13 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        if settings.DEBUG != True:
-            self.stdout.write(self.style.ERROR(f"This command can not be used in a production environment"))
-            exit()
+        if settings.DEBUG is not True:
+            self.stdout.write(
+                self.style.ERROR(
+                    "This command can not be used in a production environment"
+                )
+            )
+            exit(1)
 
         instances = int(options["instances"])
 
@@ -115,6 +119,22 @@ class Command(BaseCommand):
         self.stdout.write(
             self.style.SUCCESS(
                 f"\nCreated {instances * 10} comments for superuser's notes"
+            )
+        )
+
+        common_comments = [  # noqa
+            notes_models.Comment.objects.create(
+                note=note,
+                user=random.choice(users),
+                content=fake.paragraph(),
+                active=fake.boolean(chance_of_getting_true=75),
+                parent=None,
+            )
+            for note in notes
+        ]
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"\nCreated {len(common_comments)} comments for common notes"
             )
         )
 

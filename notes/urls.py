@@ -11,5 +11,6 @@ urlpatterns = [
     path("public/", views.PublicListView.as_view(), name="public"),
     path("bookmarks/", views.BookmarkListView.as_view(), name="bookmarks"),
     path("drafts/", views.DraftListView.as_view(), name="drafts"),
+    path("toggle-bookmark/", views.toggle_bookmark_view, name="toggle-bookmark"),
     path("<slug:slug>/", views.note_detail, name="detail"),
 ]

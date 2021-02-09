@@ -1,8 +1,8 @@
-import random
-
+from django.contrib import messages
 from django.db.models import Count
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, ListView
 from mixins import CustomLoginRequiredMixin
 
 from . import forms, models
@@ -40,24 +40,25 @@ class NotesListView(ListView):
         # return sorted(qs, key=lambda x: random.random())
 
 
-# class NotesDetailView(DetailView):
-#     """ This view will handle displaying the notes from the database """
-
-#     model = models.Note
-#     template_name = "notes/detail.html"
-
-#     def get_context_data(self, *args, **kwargs):
-#         context = super().get_context_data(*args, **kwargs)
-#         note = context["object"]
-#         context["comments"] = models.Comment.objects.filter(note=note, active=True)
-#         context["bookmarks"] = models.Bookmark.objects.filter(note=note).count()
-#         return context
-
-
 def note_detail(request, slug):
+    """This view will display a note and then all the comments associated
+    with it. A form to post a comment on the note will be available only to
+    logged in users. On submission, the page will be reloaded with either a
+    success or an error message depending on whether the comment was
+    posted successfully."""
+
     note = get_object_or_404(Note, slug=slug)
     comments = models.Comment.objects.filter(note=note, active=True)
     bookmarks = models.Bookmark.objects.filter(note=note).count()
+    user = request.user
+    # this class will be applied to the `like` icon and hence it has to be dynamically
+    # set depending on whether the current user has bookmarked this note or not
+    if not user.is_authenticated:
+        buttonClass = "text-info"
+    elif models.Bookmark.objects.filter(note=note, user=user).count() == 1:
+        buttonClass = "button-liked"
+    else:
+        buttonClass = "text-info"
     if request.method == "POST":
         comment_form = CommentForm(request.POST or None)
         if comment_form.is_valid():
@@ -65,6 +66,16 @@ def note_detail(request, slug):
             comment.note = note
             comment.user = request.user
             comment.save()
+            messages.add_message(
+                request, messages.SUCCESS, "Your comment was posted successfully!"
+            )
+            # reset the form to make sure that the previously filled in data is
+            # not re-rendered
+            comment_form = CommentForm()
+        else:
+            messages.add_message(
+                request, messages.ERROR, "There was an error, please try again..."
+            )
     else:
         comment_form = CommentForm()
     context = {
@@ -72,6 +83,7 @@ def note_detail(request, slug):
         "comments": comments,
         "bookmarks": bookmarks,
         "comment_form": comment_form,
+        "buttonClass": buttonClass,
     }
     return render(request, "notes/detail.html", context)
 
@@ -109,3 +121,21 @@ class BookmarkListView(CustomLoginRequiredMixin, ListView):
     def get_queryset(self, *args, **kwargs):
         bookmarks = models.Bookmark.objects.filter(user=self.request.user)
         return [bookmark.note for bookmark in bookmarks]
+
+
+def toggle_bookmark_view(request):
+    """When this view receives a request, it will toggle the bookmarked state of a
+    particular note (whose `pk` will be present in the POST body) for the given user."""
+    user = request.user
+    try:
+        models.Bookmark.objects.get(
+            user=user, note__id=request.POST.get("note_id")
+        ).delete()
+        status = False
+        message = "Your bookmark was removed successfully!"
+    except models.Bookmark.DoesNotExist:
+        note = models.Note.objects.get(id=request.POST.get("note_id"))
+        models.Bookmark.objects.create(user=user, note=note)
+        status = True
+        message = "The note was bookmarked successfully!"
+    return JsonResponse({"status": status, "message": message})
