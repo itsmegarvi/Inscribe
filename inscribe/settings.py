@@ -143,18 +143,25 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+]
 # Heroku: Update database configuration from $DATABASE_URL.
 if not DEBUG:
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES["default"].update(db_from_env)
-    ALLOWED_HOSTS.append('.herokuapp.com')
+    ALLOWED_HOSTS.append(".herokuapp.com")
+    PASSWORD_HASHERS.insert(0, "django.contrib.auth.hashers.Argon2PasswordHasher")
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-# The absolute path to the directory where collectstatic will collect static files for deployment.
-STATIC_ROOT = BASE_DIR / "staticfiles"  # . os.path.join(BASE_DIR, 'staticfiles')
+# The absolute path to the directory where collectstatic will collect static
+# files for deployment.
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # The URL to use when referring to static files (where they will be served from)
 STATIC_URL = "/static/"
