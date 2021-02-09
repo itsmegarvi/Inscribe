@@ -38,7 +38,6 @@ class NotesListView(ListView):
             .order_by("-count")
             .filter(hidden=False, draft=False)
         )
-        # return sorted(qs, key=lambda x: random.random())
 
 
 def note_detail(request, slug):
