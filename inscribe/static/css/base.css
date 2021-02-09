@@ -3,9 +3,11 @@
   width: 0;
   top: 0;
   left: 0;
-  transition: margin 0.3;
+  transition: 0.3s;
 }
-
+#body-wrapper {
+  transition: 0.3s;
+}
 .bg-navbar {
   background-color: rgb(34, 31, 31) !important;
 }
