@@ -25,8 +25,8 @@ Inscribe | Account Information
     </div>
   </div>
   <div>
-    <a href="{% url 'notes:public' %}">Your public notes</a>
-    <a href="{% url 'notes:private' %}">Your private notes</a>
+    <a href="{% url 'notes:public' pk=object.pk %}">Your public notes</a>
+    <a href="{% url 'notes:private' pk=object.pk %}">Your private notes</a>
     <a href="{% url 'notes:bookmarks' pk=object.pk %}">Your bookmarked notes</a>
   </div>
 </div>
