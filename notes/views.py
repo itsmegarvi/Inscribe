@@ -93,16 +93,28 @@ class PrivateListView(ListView):
     """ This view will handle displaying of private notes of the user. """
 
     paginate_by = 10
-    queryset = models.Note.objects.filter(hidden=True).order_by("-updated_at")
     template_name = "notes/private.html"
+
+    def get_queryset(self, *args, **kwargs):
+        user_id = self.kwargs.get("pk")
+        user = USER_MODEL.objects.get(id=user_id)
+        return models.Note.objects.filter(hidden=True, writer=user).order_by(
+            "-updated_at"
+        )
 
 
 class PublicListView(ListView):
     """ This view will handle displaying of publicly available notes """
 
     paginate_by = 10
-    queryset = models.Note.objects.filter(hidden=False).order_by("-updated_at")
     template_name = "notes/public.html"
+
+    def get_queryset(self, *args, **kwargs):
+        user_id = self.kwargs.get("pk")
+        user = USER_MODEL.objects.get(id=user_id)
+        return models.Note.objects.filter(hidden=False, writer=user).order_by(
+            "-updated_at"
+        )
 
 
 class DraftListView(ListView):
