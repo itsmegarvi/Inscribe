@@ -30,12 +30,14 @@
           width="24"
           height="24"
           viewBox="0 0 24 24"
-          class="text-info"
+          class="{{ buttonClass }}"
         >
           <path fill="currentColor" d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z" />
         </svg>
       </div>
-      <div class="mx-2 display-6"><strong>{{ bookmarks }}</strong></div>
+      <div class="mx-2 display-6">
+        <strong id="bookmark-count">{{ bookmarks }}</strong>
+      </div>
     </div>
     <div class="display-6 text-right">
       <span class="h3">~ by</span>
@@ -50,6 +52,7 @@
   </div>
   <form style="display: none">
     <input id="note-id" value="{{ note.id }}" />
+    <input id="is-authenticated" value="{{ user.is_authenticated }}" />
   </form>
   <div class="card-body">
     <div class="comment p-5">
