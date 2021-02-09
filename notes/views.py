@@ -50,6 +50,15 @@ def note_detail(request, slug):
     note = get_object_or_404(Note, slug=slug)
     comments = models.Comment.objects.filter(note=note, active=True)
     bookmarks = models.Bookmark.objects.filter(note=note).count()
+    user = request.user
+    # this class will be applied to the `like` icon and hence it has to be dynamically
+    # set depending on whether the current user has bookmarked this note or not
+    if not user.is_authenticated:
+        buttonClass = "text-info"
+    elif models.Bookmark.objects.filter(note=note, user=user).count() == 1:
+        buttonClass = "button-liked"
+    else:
+        buttonClass = "text-info"
     if request.method == "POST":
         comment_form = CommentForm(request.POST or None)
         if comment_form.is_valid():
@@ -74,6 +83,7 @@ def note_detail(request, slug):
         "comments": comments,
         "bookmarks": bookmarks,
         "comment_form": comment_form,
+        "buttonClass": buttonClass,
     }
     return render(request, "notes/detail.html", context)
 
@@ -114,8 +124,9 @@ class BookmarkListView(CustomLoginRequiredMixin, ListView):
 
 
 def toggle_bookmark_view(request):
+    """When this view receives a request, it will toggle the bookmarked state of a
+    particular note (whose `pk` will be present in the POST body) for the given user."""
     user = request.user
-    print(request.POST)
     try:
         models.Bookmark.objects.get(
             user=user, note__id=request.POST.get("note_id")
