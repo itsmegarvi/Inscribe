@@ -8,55 +8,56 @@
   >
     <a href="{% url 'home:index' %}" class="no-underline">
       <div class="text-center pt-3 text-uppercase text-responsive">
-        <b class="text-warning">Inscribe</b>
+        <b class="text-warning d-none d-sm-block">Inscribe</b>
+        <b class="text-warning d-block d-sm-none">Logo</b>
       </div>
     </a>
     <div
-      class="list-group text-center mx-auto list-group-flush flex-grow-1 justify-content-around display-1 text-responsive"
+      class="list-group text-center mx-auto h-100 d-flex flex-column justify-content-around display-1 text-responsive"
     >
       <div class="d-flex flex-column">
         <a class="no-underline" href="{% url 'home:index' %}">
           <img src="{% static 'icons/home.svg' %}" alt="home-icon" />
-          <div class="text-warning">Home</div>
+          <div class="text-warning d-none d-sm-block">Home</div>
         </a>
       </div>
       {% if user.is_authenticated %}
       <div class="d-flex flex-column">
         <a class="no-underline" href="{% url 'accounts:logout' %}">
           <img src="{% static 'icons/logout.svg' %}" alt="logout-icon" />
-          <div class="text-warning">Logout</div>
+          <div class="text-warning d-none d-sm-block">Logout</div>
         </a>
       </div>
       <div class="d-flex flex-column">
         <a class="no-underline" href="{% url 'accounts:profile' %}">
           <img src="{% static 'icons/profile.svg' %}" alt="profile-icon" />
-          <div class="text-warning">Profile</div>
+          <div class="text-warning d-none d-sm-block">Profile</div>
         </a>
       </div>
       {% else %}
       <div class="d-flex flex-column">
         <a class="no-underline" href="{% url 'accounts:login' %}">
           <img src="{% static 'icons/login.svg' %}" alt="login-icon" />
-          <div class="text-warning">Login</div>
+          <div class="text-warning d-none d-sm-block">Login</div>
         </a>
       </div>
       <div class="d-flex flex-column">
         <a class="no-underline" href="{% url 'accounts:register' %}">
           <img src="{% static 'icons/register.svg' %}" alt="register-icon" />
-          <div class="text-warning">Register</div>
+          <div class="text-warning d-none d-sm-block">Register</div>
         </a>
       </div>
       <div class="d-flex flex-column">
         <a class="no-underline" href="{% url 'notes:list' %}">
           <img src="{% static 'icons/try-me.svg' %}" alt="try-me-icon" />
-          <div class="text-warning">Try Now</div>
+          <div class="text-warning d-none d-sm-block">Try Now</div>
         </a>
       </div>
       {% endif %}
       <div class="d-flex flex-column">
         <a class="no-underline" href="{% url 'home:discover' %}">
           <img src="{% static 'icons/discover.svg' %}" alt="discover-icon" />
-          <div class="text-warning">Discover</div>
+          <div class="text-warning d-none d-sm-block">Discover</div>
         </a>
       </div>
     </div>
