@@ -2,7 +2,6 @@ import re
 from typing import Any, Dict, List
 
 import pandas as pd
-from django.db.models import Model
 from textblob import Sentence, TextBlob
 
 
@@ -22,23 +21,23 @@ def parse_text(text: str) -> List[Sentence]:
 
 
 def create_dataframe(sentences: List[Sentence]) -> Any:
-    data: Dict = {"index": [], "text": [], "polarity": []}
+    data: Dict = {"Sentence Token": [], "Text": [], "Polarity": []}
     for index, sentence in enumerate(sentences, 1):
-        data["index"].append(index)
-        data["text"].append(str(sentence))
-        data["polarity"].append(sentence.polarity)
-    return pd.DataFrame(data=data)
+        data["Sentence Token"].append(index)
+        data["Text"].append(str(sentence))
+        data["Polarity"].append(sentence.polarity)
+    return pd.DataFrame(data=data).sort_values(by=["Polarity"])
 
 
 def generate_report(text: str) -> Dict:
     sentences = TextBlob(text).sentences
     report = create_dataframe(sentences)
-    return {"report": report}
-
-
-# test = create_dataframe(
-#     parse_text(
-#         "hello I am under the water. 10 minutes more! Hello bro, I feel so awesome..."
-#     )
-# )
-# print(test)
+    # report.reset_index(drop=True, inplace=True)
+    return {
+        "report": report.to_html(
+            classes=["table", "table-dark", "rounded-lg", "table-striped"],
+            index=False,
+            justify="center",
+            show_dimensions=True,
+        )
+    }
