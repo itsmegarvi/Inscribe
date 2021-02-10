@@ -1,4 +1,3 @@
-import markdown
 from bs4 import BeautifulSoup
 from django.db import models
 from django.urls import reverse
@@ -64,10 +63,8 @@ class Note(models.Model):
     def generate_report(self):
         """ Get a detailed report of the note's body """
         html = self.formatted_markdown
-        print(html)
         soup = BeautifulSoup(html, features="html.parser")
         text = soup.get_text()
-        # print(text)
         return sentiment_analysis.generate_report(text)
 
 
