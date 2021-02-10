@@ -54,7 +54,7 @@ def note_detail(request, slug):
     success or an error message depending on whether the comment was
     posted successfully."""
 
-    note = get_object_or_404(Note, slug=slug)
+    note = get_object_or_404(models.Note, slug=slug)
     comments = models.Comment.objects.filter(note=note, active=True)
     bookmarks = models.Bookmark.objects.filter(note=note).count()
     user = request.user
@@ -102,6 +102,13 @@ class PrivateListView(ListView):
     queryset = models.Note.objects.filter(hidden=True).order_by("-updated_at")
     template_name = "notes/private.html"
 
+    def get_queryset(self, *args, **kwargs):
+        user_id = self.kwargs.get("pk")
+        user = USER_MODEL.objects.get(id=user_id)
+        return models.Note.objects.filter(hidden=True, writer=user).order_by(
+            "-updated_at"
+        )
+
 
 class PublicListView(ListView):
     """ This view will handle displaying of publicly available notes """
@@ -133,6 +140,8 @@ class BookmarkListView(CustomLoginRequiredMixin, ListView):
     template_name = "notes/bookmarks.html"
 
     def get_queryset(self, *args, **kwargs):
+        user_id = self.kwargs.get("pk")
+        user = USER_MODEL.objects.get(id=user_id)	
         bookmarks = models.Bookmark.objects.filter(user=self.request.user)
         return [bookmark.note for bookmark in bookmarks]
 
