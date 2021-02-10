@@ -18,26 +18,41 @@
     <strong class="text-info">{{ note.title }}</strong>
   </div>
   <div class="d-flex justify-content-between">
-    <div class="align-self-end d-flex rounded-circle p-2">
-      <div
-        id="like-button"
-        class="mx-2 align-self-center"
-        style="cursor: pointer"
-      >
-        <svg
-          id="heart-icon"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          class="{{ buttonClass }}"
+    <div class="p-22">
+      <div class="align-self-center d-flex">
+        <div
+          id="like-button"
+          class="mx-2 align-self-center"
+          style="cursor: pointer"
         >
-          <path fill="currentColor" d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z" />
-        </svg>
+          <svg
+            id="heart-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            class="{{ buttonClass }}"
+          >
+            <path
+              fill="currentColor"
+              d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z"
+            />
+          </svg>
+        </div>
+        <div class="mx-2 display-6">
+          <strong id="bookmark-count">{{ bookmarks }}</strong>
+        </div>
       </div>
-      <div class="mx-2 display-6">
-        <strong id="bookmark-count">{{ bookmarks }}</strong>
-      </div>
+      <a class="d-flex align-items-center" href="{{ note.get_report_url }}">
+        <img
+          src="{% static 'icons/artificial-intelligence.svg' %}"
+          style="height: 40px; width: 40px"
+          alt="artificial intelligence icon"
+        />
+        <div class="text-danger ml-2" style="font-size: larger">
+          Sentiment Analysis
+        </div>
+      </a>
     </div>
     <div class="display-6 text-right">
       <span class="h3">~ by</span>
