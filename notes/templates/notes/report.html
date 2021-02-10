@@ -20,6 +20,10 @@ Inscribe
     <span class="h3">~</span>
     <em>a detailed sentiment analysis</em>
   </div>
+  {% with final_report=object.generate_report %}
+  <div class="shadow-sm p-5">
+    <div class="mt-2">{{ final_report.plot | safe }}</div>
+  </div>
   <div class="shadow-sm p-5">
     <div>
       <div style="font-size: larger">What the columns mean:</div>
@@ -43,8 +47,9 @@ Inscribe
         </div>
       </div>
     </div>
-    <div class="mt-2">{{ object.generate_report.report | safe }}</div>
+    <div class="mt-2">{{ final_report.report | safe }}</div>
   </div>
+  {% endwith %}
 </div>
 {% endblock %}
 
