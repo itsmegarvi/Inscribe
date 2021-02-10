@@ -17,6 +17,8 @@ whitenoise = "^5.2.0"
 psycopg2-binary = "^2.8.6"
 pandas = "^1.2.2"
 textblob = "^0.15.3"
+Markdown = "^3.3.3"
+beautifulsoup4 = "^4.9.3"
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.10.1"
