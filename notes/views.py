@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from mixins import CustomLoginRequiredMixin
 
 from . import forms, models
@@ -15,7 +15,7 @@ class NoteCreateView(CustomLoginRequiredMixin, CreateView):
     """ This view will handle the creation of notes, and saving them to the database """
 
     template_name = "notes/create.html"
-    form_class = forms.CreateNoteForm
+    form_class = forms.NoteCreateOrUpdateForm
 
     def form_valid(self, form, *args, **kwargs):
         user = self.request.user
@@ -139,8 +139,8 @@ class BookmarkListView(CustomLoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         user_id = self.kwargs.get("pk")
-        user = USER_MODEL.objects.get(id=user_id)	
-        bookmarks = models.Bookmark.objects.filter(user=self.request.user)
+        user = USER_MODEL.objects.get(id=user_id)
+        bookmarks = models.Bookmark.objects.filter(user=user)
         return [bookmark.note for bookmark in bookmarks]
 
 
@@ -166,5 +166,8 @@ class ReportView(DetailView):
     template_name = "notes/report.html"
     model = models.Note
 
-    # def get_object(self, *args, **kwargs):
-    #     return models.No
+
+class NoteUpdateView(UpdateView):
+    template_name = "notes/update.html"
+    form_class = forms.NoteCreateOrUpdateForm
+    model = models.Note
