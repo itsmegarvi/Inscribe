@@ -12,7 +12,17 @@ Inscribe
 
 <!-- prettier-ignore -->
 {% block body %}
-<div class="text-white bg-danger">
-  {{ object.generate_report.report.to_html | safe }}
+<div class="text-white container">
+  <div class="p-5">{{ object.generate_report.report | safe }}</div>
 </div>
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block additional_js %}
+<script>
+  window.onload = function () {
+    const tr = document.querySelectorAll("tr");
+    // tr.forEach((e) => e.classList.add("text-center"));
+  };
+</script>
 {% endblock %}
