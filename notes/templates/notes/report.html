@@ -1,0 +1,18 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+{% load static %}
+{% block additional_css %}
+<link href="{% static 'home/css/index.css' %}" rel="stylesheet" />
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block title %}
+Inscribe
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block body %}
+<div class="text-white bg-danger">
+  {{ object.generate_report.report.to_html | safe }}
+</div>
+{% endblock %}
