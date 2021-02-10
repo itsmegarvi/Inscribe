@@ -1,16 +1,15 @@
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, DetailView, ListView
 from mixins import CustomLoginRequiredMixin
-from django.contrib.auth import get_user_model
 
 from . import forms, models
-from .forms import CommentForm
-from .models import Note
 
 USER_MODEL = get_user_model()
+
 
 class NoteCreateView(CustomLoginRequiredMixin, CreateView):
     """ This view will handle the creation of notes, and saving them to the database """
@@ -34,16 +33,15 @@ class NotesListView(ListView):
     template_name = "notes/list.html"
 
     def get_queryset(self):
-        query = self.request.GET.get('q')
+        query = self.request.GET.get("q")
         if query:
-            object_list = self.model.objects.filter(title__icontains=query)
-            return object_list
+            return self.model.objects.filter(title__icontains=query)
         else:
             return (
                 models.Note.objects.annotate(count=Count("bookmark__id"))
                 .order_by("-count")
                 .filter(hidden=False, draft=False)
-                )
+            )
         # return sorted(qs, key=lambda x: random.random())
 
 
@@ -67,7 +65,7 @@ def note_detail(request, slug):
     else:
         buttonClass = "text-info"
     if request.method == "POST":
-        comment_form = CommentForm(request.POST or None)
+        comment_form = forms.CommentForm(request.POST or None)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.note = note
@@ -78,13 +76,13 @@ def note_detail(request, slug):
             )
             # reset the form to make sure that the previously filled in data is
             # not re-rendered
-            comment_form = CommentForm()
+            comment_form = forms.CommentForm()
         else:
             messages.add_message(
                 request, messages.ERROR, "There was an error, please try again..."
             )
     else:
-        comment_form = CommentForm()
+        comment_form = forms.CommentForm()
     context = {
         "note": note,
         "comments": comments,
@@ -118,12 +116,12 @@ class PublicListView(ListView):
     template_name = "notes/public.html"
 
     def get_queryset(self, *args, **kwargs):
-        user_id =self.kwargs.get("pk")
+        user_id = self.kwargs.get("pk")
         user = USER_MODEL.objects.get(id=user_id)
-        return models.Note.objects.filter(
-            hidden=False, writer=user).order_by(
+        return models.Note.objects.filter(hidden=False, writer=user).order_by(
             "-updated_at"
         )
+
 
 class DraftListView(ListView):
     """ This view will handle displaying draft notes """
@@ -162,3 +160,11 @@ def toggle_bookmark_view(request):
         status = True
         message = "The note was bookmarked successfully!"
     return JsonResponse({"status": status, "message": message})
+
+
+class ReportView(DetailView):
+    template_name = "notes/report.html"
+    model = models.Note
+
+    # def get_object(self, *args, **kwargs):
+    #     return models.No
