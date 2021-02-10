@@ -32,6 +32,7 @@ mdgen = "^0.1.7"
 jupyterlab = "^3.0.7"
 Werkzeug = "^1.0.1"
 httpie = "^2.4.0"
+mypy = "^0.800"
 
 [tool.black]
 line-length = 89
