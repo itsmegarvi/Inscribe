@@ -6,24 +6,36 @@
 {% endblock %}
 <!-- prettier-ignore -->
 {%  block body %}
-<div class="container" align="center">
-  <div class="col-sm d-flex flex-column p-3 justify-content-between">
-    <form method='GET'>
-      <input type='text' name='q' value='{{ request.GET.q }}'>
-      <input class="button" type='submit' value="Search">
+
+<div class="container text-white">
+  <div class="p-3">
+    <form method="GET">
+      <div class="form-group">
+        <input
+          class="form-control"
+          type="text"
+          name="q"
+          value="{{ request.GET.q }}"
+        />
+        <input
+          class="btn btn-primary btn-block mt-3"
+          type="submit"
+          value="Search"
+        />
+      </div>
     </form>
   </div>
-</div>
-<div class="container text-white">
   {% for user in object_list %}
   <div class="card w-100 my-4 color-dark-blue">
     <div class="card-body">
       <div class="row">
         <div class="col-sm d-flex flex-column p-3 justify-content-between">
           <div class="border-bottom border-danger">
-            <a href="{% url 'accounts:info' pk=user.pk %}" class="no-underline"> <h1 class="text-capitalize">
-              <strong >{{ user.full_name }}</strong>
-            </h1></a>
+            <a href="{% url 'accounts:info' pk=user.pk %}" class="no-underline">
+              <h1 class="text-capitalize">
+                <strong>{{ user.full_name }}</strong>
+              </h1></a
+            >
             <h3>{{ user.email }}</h3>
           </div>
           <div class="py-3 text-justify">
