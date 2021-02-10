@@ -4,11 +4,13 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import CreateView, ListView
 from mixins import CustomLoginRequiredMixin
+from django.contrib.auth import get_user_model
 
 from . import forms, models
 from .forms import CommentForm
 from .models import Note
 
+USER_MODEL = get_user_model()
 
 class NoteCreateView(CustomLoginRequiredMixin, CreateView):
     """ This view will handle the creation of notes, and saving them to the database """
@@ -101,7 +103,6 @@ class PrivateListView(ListView):
     template_name = "notes/private.html"
 
 
-
 class PublicListView(ListView):
     """ This view will handle displaying of publicly available notes """
 
@@ -109,6 +110,13 @@ class PublicListView(ListView):
     queryset = models.Note.objects.filter(hidden=False).order_by("-updated_at")
     template_name = "notes/public.html"
 
+    def get_queryset(self, *args, **kwargs):
+        user_id =self.kwargs.get("pk")
+        user = USER_MODEL.objects.get(id=user_id)
+        return models.Note.objects.filter(
+            hidden=False, writer=user).order_by(
+            "-updated_at"
+        )
 
 class DraftListView(ListView):
     """ This view will handle displaying draft notes """
