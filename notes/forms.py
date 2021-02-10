@@ -4,7 +4,7 @@ from markdownx.fields import MarkdownxFormField
 from . import models
 
 
-class CreateNoteForm(forms.ModelForm):
+class NoteCreateOrUpdateForm(forms.ModelForm):
     body = MarkdownxFormField()
 
     class Meta:
