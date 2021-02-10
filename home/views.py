@@ -7,3 +7,7 @@ class IndexView(TemplateView):
 
 class DiscoverView(TemplateView):
     template_name = "home/discover.html"
+
+
+class FAQView(TemplateView):
+    template_name = "home/faq.html"
