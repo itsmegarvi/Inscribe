@@ -1,8 +1,12 @@
+import markdown
+from bs4 import BeautifulSoup
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from markdownx.utils import markdownify
+
+from . import sentiment_analysis
 
 
 class Note(models.Model):
@@ -38,11 +42,6 @@ class Note(models.Model):
         max_length=200, unique=True, help_text=_("The unique slug to the note")
     )
 
-    # Create a property that returns the markdown instead
-    @property
-    def formatted_markdown(self):
-        return markdownify(self.body)
-
     class Meta:
         ordering = ["-created_at"]
 
@@ -55,6 +54,21 @@ class Note(models.Model):
 
     def get_absolute_url(self):
         return reverse("notes:detail", kwargs={"slug": self.slug})
+
+    @property
+    def formatted_markdown(self):
+        # Create a property that returns the markdown instead
+        return markdownify(self.body)
+
+    @property
+    def generate_report(self):
+        """ Get a detailed report of the note's body """
+        html = self.formatted_markdown
+        print(html)
+        soup = BeautifulSoup(html, features="html.parser")
+        text = soup.get_text()
+        # print(text)
+        return sentiment_analysis.generate_report(text)
 
 
 class Comment(models.Model):
