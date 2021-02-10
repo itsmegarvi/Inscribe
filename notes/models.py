@@ -57,6 +57,9 @@ class Note(models.Model):
     def get_report_url(self):
         return reverse("notes:report", kwargs={"slug": self.slug})
 
+    def get_update_url(self):
+        return reverse("notes:update", kwargs={"slug": self.slug})
+
     @property
     def formatted_markdown(self):
         # Create a property that returns the markdown instead
