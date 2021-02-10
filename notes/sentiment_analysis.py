@@ -16,17 +16,23 @@ def get_polarity(text: str) -> float:
     return TextBlob(text).sentiment.polarity
 
 
+def get_subjectivity(text: str) -> float:
+    return TextBlob(text).sentiment.subjectivity
+
+
 def parse_text(text: str) -> List[Sentence]:
     return TextBlob(text).sentences
 
 
 def create_dataframe(sentences: List[Sentence]) -> Any:
-    data: Dict = {"Sentence Token": [], "Text": [], "Polarity": []}
+    data: Dict = {"Sentence Index": [], "Text": []}
     for index, sentence in enumerate(sentences, 1):
-        data["Sentence Token"].append(index)
+        data["Sentence Index"].append(index)
         data["Text"].append(str(sentence))
-        data["Polarity"].append(sentence.polarity)
-    return pd.DataFrame(data=data).sort_values(by=["Polarity"])
+    df = pd.DataFrame(data=data)
+    df["Polarity"] = df["Text"].apply(get_polarity)
+    df["Subjectivity"] = df["Text"].apply(get_subjectivity)
+    return df.sort_values(by=["Polarity"])
 
 
 def generate_report(text: str) -> Dict:
