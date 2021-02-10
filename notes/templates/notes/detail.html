@@ -43,7 +43,10 @@
           <strong id="bookmark-count">{{ bookmarks }}</strong>
         </div>
       </div>
-      <a class="d-flex align-items-center" href="{{ note.get_report_url }}">
+      <a
+        class="d-flex align-items-center mt-2"
+        href="{{ note.get_report_url }}"
+      >
         <img
           src="{% static 'icons/artificial-intelligence.svg' %}"
           style="height: 40px; width: 40px"
@@ -53,6 +56,19 @@
           Sentiment Analysis
         </div>
       </a>
+      {% if note.writer == user %}
+      <a
+        class="d-flex align-items-center mt-2"
+        href="{{ note.get_update_url }}"
+      >
+        <img
+          src="{% static 'icons/pen.svg' %}"
+          style="height: 40px; width: 40px"
+          alt="pen icon"
+        />
+        <div class="text-danger ml-2" style="font-size: larger">Edit</div>
+      </a>
+      {% endif %}
     </div>
     <div class="display-6 text-right">
       <span class="h3">~ by</span>
