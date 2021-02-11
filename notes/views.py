@@ -96,16 +96,21 @@ def note_detail(request, slug):
 class PrivateListView(ListView):
     """ This view will handle displaying of private notes of the user. """
 
+    model = models.Note
     paginate_by = 10
     queryset = models.Note.objects.filter(hidden=True).order_by("-updated_at")
     template_name = "notes/private.html"
 
-    def get_queryset(self, *args, **kwargs):
-        user_id = self.kwargs.get("pk")
-        user = USER_MODEL.objects.get(id=user_id)
-        return models.Note.objects.filter(hidden=True, writer=user).order_by(
-            "-updated_at"
-        )
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        if query:
+            return self.model.objects.filter(title__icontains=query)
+        else:
+            user_id = self.kwargs.get("pk")
+            user = USER_MODEL.objects.get(id=user_id)
+            return models.Note.objects.filter(hidden=True, writer=user).order_by(
+                "-updated_at"
+            )
 
 
 class PublicListView(ListView):
@@ -140,7 +145,7 @@ class BookmarkListView(CustomLoginRequiredMixin, ListView):
     def get_queryset(self, *args, **kwargs):
         user_id = self.kwargs.get("pk")
         user = USER_MODEL.objects.get(id=user_id)
-        bookmarks = models.Bookmark.objects.filter(user=user)
+        bookmarks = models.Bookmark.objects.filter(user=self.request.user)
         return [bookmark.note for bookmark in bookmarks]
 
 
