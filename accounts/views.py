@@ -91,18 +91,30 @@ class CustomUserPasswordChangeDoneView(
 
 
 class FollowersView(CustomLoginRequiredMixin, ListView):
+
+    model = accounts_models.CustomUser
     paginate_by = 15
     template_name = "accounts/customuserfollowers_list.html"
 
-    def get_queryset(self, *args, **kwargs):
-        return accounts_models.CustomUserFollowing.objects.filter(user=self.request.user)
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        if query:
+            return self.model.objects.filter(first_name__icontains=query)
+        else:
+            return accounts_models.CustomUserFollowing.objects.filter(user=self.request.user)
 
 
 class FollowingsView(CustomLoginRequiredMixin, ListView):
+
+    model = accounts_models.CustomUserFollowing
     paginate_by = 15
     template_name = "accounts/customuserfollowing_list.html"
 
-    def get_queryset(self, *args, **kwargs):
-        return accounts_models.CustomUserFollowing.objects.filter(
-            follower=self.request.user
-        )
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        if query:
+            return self.model.objects.filter(follower__icontains=query)
+        else:
+            return accounts_models.CustomUserFollowing.objects.filter(
+                follower=self.request.user
+            )
