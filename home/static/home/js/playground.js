@@ -2,6 +2,8 @@ let inputs = [];
 const template =
   '<div class="text-center bg-dark mx-2 my-1 p-1 rounded-lg">{{text}}</div>';
 
+$('input[name="query"]').focus();
+
 $("#analysis-form").submit(function (e) {
   e.preventDefault();
   return;
