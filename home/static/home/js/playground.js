@@ -1,30 +1,35 @@
 let inputs = [];
 const template =
-  '<div class="text-danger text-center bg-dark mx-2 my-1 p-1 rounded-lg">{{text}}</div>';
+  '<div class="text-center bg-dark mx-2 my-1 p-1 rounded-lg">{{text}}</div>';
 
 $("#analysis-form").submit(function (e) {
   e.preventDefault();
-  var form = $(this);
-  var url = "/playground-response/";
-  const input = $('input[name="query"]').val();
-  if (!input) {
-    alert("Please type something!");
-    return;
-  }
-  $.ajax({
-    type: "GET",
-    url: url,
-    data: form.serialize(),
-    success: function (data) {
-      inputs.push(input);
-      $("#input-texts").append(template.replace("{{text}}", input));
-    },
-  });
+  return;
+  // i have disabled this for the time being because I can not determine
+  // what to actually do after the form is submitted
+
+  //   var form = $(this);
+  //   var url = "/playground-response/";
+  //   const input = $('input[name="query"]').val();
+  //   if (!input) {
+  //     alert("Please type something!");
+  //     return;
+  //   }
+  //   $.ajax({
+  //     type: "GET",
+  //     url: url,
+  //     data: form.serialize(),
+  //     success: function (data) {
+  //       inputs.push(input);
+  //       $("#input-texts").append(template.replace("{{text}}", input));
+  //     },
+  //   });
 });
 
 const happyFace = $("#happy-face");
 const neutralFace = $("#neutral-face");
 const sadFace = $("#sad-face");
+const classToAdd = "text-yellow";
 
 $("#input-statement").on("input", function (element) {
   const input = $('input[name="query"]').val();
@@ -35,17 +40,17 @@ $("#input-statement").on("input", function (element) {
     data: { input: input },
     success: function (data) {
       if (data.polarity == 0) {
-        neutralFace.addClass("text-danger");
-        happyFace.removeClass("text-danger");
-        sadFace.removeClass("text-danger");
+        neutralFace.addClass(classToAdd);
+        happyFace.removeClass(classToAdd);
+        sadFace.removeClass(classToAdd);
       } else if (data.polarity > 0) {
-        happyFace.addClass("text-danger");
-        neutralFace.removeClass("text-danger");
-        sadFace.removeClass("text-danger");
+        happyFace.addClass(classToAdd);
+        neutralFace.removeClass(classToAdd);
+        sadFace.removeClass(classToAdd);
       } else {
-        sadFace.addClass("text-danger");
-        happyFace.removeClass("text-danger");
-        neutralFace.removeClass("text-danger");
+        sadFace.addClass(classToAdd);
+        happyFace.removeClass(classToAdd);
+        neutralFace.removeClass(classToAdd);
       }
     },
   });
