@@ -8,14 +8,14 @@
 {%  block body %}
 <div class="container" align="center">
   <div class="col-sm d-flex flex-column p-3 justify-content-between">
-    <form method='GET'>
-      <input type='text' name='q' value='{{ request.GET.q }}'>
-      <input class="button" type='submit' value="Search">
+    <form method="GET">
+      <input type="text" name="q" value="{{ request.GET.q }}" />
+      <input class="button" type="submit" value="Search" />
     </form>
   </div>
 </div>
 <div class="container text-white">
-  {% for follower in object_list %}
+  {% if object_list %} {% for follower in object_list %}
   <div class="card w-100 my-4 color-dark-blue">
     <div class="card-body">
       <div class="row">
@@ -39,6 +39,10 @@
     </div>
   </div>
   {% endfor %}
+  <!-- prettier-ignore -->
+  {% else %}
+  <div>No search results found!</div>
+  {% endif %}
   <div class="pagination text-white d-flex">
     <span class="step-links mx-auto border border-info rounded p-2">
       {% if page_obj.has_previous %}
