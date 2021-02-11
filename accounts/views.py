@@ -5,8 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import (CreateView, DetailView, ListView,
-                                  TemplateView, UpdateView)
+from django.views.generic import (
+    CreateView,
+    DetailView,
+    ListView,
+    TemplateView,
+    UpdateView,
+)
 from mixins import CustomLoginRequiredMixin
 from notes import models as notes_models
 
@@ -44,16 +49,15 @@ class CustomUserDetailView(DetailView):
 class CustomUserDiscoverView(ListView):
 
     model = accounts_models.CustomUser
-    paginate_by=20
+    paginate_by = 20
 
     def get_queryset(self):
-        query = self.request.GET.get('q')
+        query = self.request.GET.get("q")
         if query:
-            object_list = self.model.objects.filter(first_name__icontains=query                )
+            object_list = self.model.objects.filter(first_name__icontains=query)
             return object_list
         else:
-            return (
-                accounts_models.CustomUser.objects.all()[:10]                )
+            return accounts_models.CustomUser.objects.all()[:10]
 
 
 class ProfileView(CustomLoginRequiredMixin, TemplateView):
@@ -92,16 +96,15 @@ class CustomUserPasswordChangeDoneView(
 
 class FollowersView(CustomLoginRequiredMixin, ListView):
 
-    model = accounts_models.CustomUser
+    model = accounts_models.CustomUserFollowing
     paginate_by = 15
     template_name = "accounts/customuserfollowers_list.html"
 
     def get_queryset(self):
-        query = self.request.GET.get("q")
-        if query:
-            return self.model.objects.filter(first_name__icontains=query)
-        else:
-            return accounts_models.CustomUserFollowing.objects.filter(user=self.request.user)
+        query = self.request.GET.get("q", "")
+        return self.model.objects.filter(
+            follower__first_name__icontains=query, user=self.request.user
+        )
 
 
 class FollowingsView(CustomLoginRequiredMixin, ListView):
@@ -111,10 +114,7 @@ class FollowingsView(CustomLoginRequiredMixin, ListView):
     template_name = "accounts/customuserfollowing_list.html"
 
     def get_queryset(self):
-        query = self.request.GET.get("q")
-        if query:
-            return self.model.objects.filter(follower__icontains=query)
-        else:
-            return accounts_models.CustomUserFollowing.objects.filter(
-                follower=self.request.user
-            )
+        query = self.request.GET.get("q", "")
+        return self.model.objects.filter(
+            user__first_name__icontains=query, follower=self.request.user
+        )
