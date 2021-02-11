@@ -1,11 +1,10 @@
+import sentiment_analysis
 from bs4 import BeautifulSoup
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from markdownx.utils import markdownify
-
-from . import sentiment_analysis
 
 
 class Note(models.Model):
