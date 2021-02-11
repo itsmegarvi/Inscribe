@@ -8,10 +8,11 @@
   >
     <a href="{% url 'home:index' %}" class="no-underline">
       <div class="text-center pt-3 text-uppercase text-responsive">
-        <div class="text-warning m-2">
+        <div class="text-warning m-2 d-flex justify-content-around">
           <img
             src="{% static 'images/logo.svg' %}"
-            class="img-fluid"
+            height="40px"
+            width="40px"
             alt="inscribe logo"
           />
           <div class="text-warning d-none d-sm-block">Inscribe</div>
@@ -53,13 +54,13 @@
           <div class="text-warning d-none d-sm-block">Register</div>
         </a>
       </div>
+      {% endif %}
       <div class="d-flex flex-column">
-        <a class="no-underline" href="{% url 'notes:list' %}">
-          <img src="{% static 'icons/try-me.svg' %}" alt="try-me-icon" />
-          <div class="text-warning d-none d-sm-block">Try Now</div>
+        <a class="no-underline" href="{% url 'home:playground' %}">
+          <img src="{% static 'icons/playground.svg' %}" alt="try-me-icon" />
+          <div class="text-warning d-none d-sm-block">Playground</div>
         </a>
       </div>
-      {% endif %}
       <div class="d-flex flex-column">
         <a class="no-underline" href="{% url 'home:discover' %}">
           <img src="{% static 'icons/discover.svg' %}" alt="discover-icon" />
