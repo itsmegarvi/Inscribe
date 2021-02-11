@@ -136,22 +136,32 @@ class PublicListView(ListView):
 class DraftListView(ListView):
     """ This view will handle displaying draft notes """
 
+    model = models.Note
     paginate_by = 10
     queryset = models.Note.objects.filter(draft=True).order_by("-updated_at")
     template_name = "notes/drafts.html"
 
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        if query:
+            return self.model.objects.filter(title__icontains=query)
 
 class BookmarkListView(CustomLoginRequiredMixin, ListView):
     """ This view will handle display of bookmarks """
 
+    model = models.Note
     paginate_by = 10
     template_name = "notes/bookmarks.html"
 
-    def get_queryset(self, *args, **kwargs):
-        user_id = self.kwargs.get("pk")
-        user = USER_MODEL.objects.get(id=user_id)
-        bookmarks = models.Bookmark.objects.filter(user=self.request.user)
-        return [bookmark.note for bookmark in bookmarks]
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        if query:
+            return self.model.objects.filter(title__icontains=query)
+        else:
+            user_id = self.kwargs.get("pk")
+            user = USER_MODEL.objects.get(id=user_id)
+            bookmarks = models.Bookmark.objects.filter(user=self.request.user)
+            return [bookmark.note for bookmark in bookmarks]
 
 
 def toggle_bookmark_view(request):
