@@ -2,6 +2,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block additional_css %}
+<link
+  rel="stylesheet"
+  href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"
+/>
+<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
 <link href="{% static 'home/css/index.css' %}" rel="stylesheet" />
 {% endblock %}
 
@@ -20,33 +25,57 @@ Inscribe
     <span class="h3">~</span>
     <em>a detailed sentiment analysis</em>
   </div>
-  {% with final_report=object.generate_report %}
-  <div class="shadow-sm p-5">
-    <div class="mt-2">{{ final_report.plot | safe }}</div>
-  </div>
-  <div class="shadow-sm p-5">
+  <div>
+    <div style="font-size: larger">What the terms mean:</div>
     <div>
-      <div style="font-size: larger">What the columns mean:</div>
       <div>
-        <div>
-          <u class="text-info">Sentence Token</u>: The index of the sentence in
-          the actual blog body
+        <u class="text-danger">Polarity</u>: How positive the sentence is. A
+        score of <code>+1</code> means very <strong>positive</strong> and score
+        of <code>-1</code> means <strong>negative</strong> and
+        <code>0</code> means <strong>neutral</strong>.
+      </div>
+      <div>
+        <u class="text-danger">Subjectivity</u>: Subjective sentence expresses
+        some personal feelings, views, or beliefs. subjective sentence may not
+        express any sentiment. For example, "I think that he went home" and "I
+        want a camera that can take good photos" are a subjective sentences, but
+        does not express any sentiment.
+      </div>
+      <div>
+        <u class="text-danger">Sentence Token</u>: The index of the sentence in
+        the actual blog body
+      </div>
+    </div>
+  </div>
+  {% with final_report=object.generate_report %}
+  <div class="shadow-sm p-5 text-dark">
+    <div class="mt-2">
+      <div class="row">
+        <div class="col-sm-6 d-flex flex-column">
+          <div class="text-info text-center mb-2">
+            The most occurring words in this note
+          </div>
+          <img
+            src="{{ final_report.wordcloud | safe }}"
+            alt="word cloud image"
+            class="img-fluid mx-auto"
+          />
         </div>
-        <div>
-          <u class="text-info">Polarity</u>: How positive the sentence is. A
-          score of <code>+1</code> means very <strong>positive</strong> and
-          score of <code>-1</code> means <strong>negative</strong> and
-          <code>0</code> means <strong>neutral</strong>.
+        <div class="col-sm-6">
+          {{ final_report.frequency_distribution_report | safe }}
         </div>
-        <div>
-          <u class="text-info">Subjectivity</u>: Subjective sentence expresses
-          some personal feelings, views, or beliefs. subjective sentence may not
-          express any sentiment. For example, "I think that he went home" and "I
-          want a camera that can take good photos" are a subjective sentences,
-          but does not express any sentiment.
+      </div>
+      <div class="row mt-2">
+        <div class="col-sm-6">
+          {{ final_report.polarity_distribution_bar_plot | safe }}
+        </div>
+        <div class="col-sm-6">
+          {{ final_report.polarity_distribution_scatter_plot | safe }}
         </div>
       </div>
     </div>
+  </div>
+  <div class="shadow-sm p-5">
     <div class="mt-2">{{ final_report.report | safe }}</div>
   </div>
   {% endwith %}
@@ -55,10 +84,4 @@ Inscribe
 
 <!-- prettier-ignore -->
 {% block additional_js %}
-<script>
-  window.onload = function () {
-    const tr = document.querySelectorAll("tr");
-    // tr.forEach((e) => e.classList.add("text-center"));
-  };
-</script>
 {% endblock %}
