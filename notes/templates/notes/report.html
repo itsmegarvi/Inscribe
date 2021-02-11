@@ -19,7 +19,9 @@ Inscribe
 {% block body %}
 <div class="text-white container">
   <div class="display-4 text-center text-capitalize mt-4">
-    <strong class="text-info">{{ object.title }}</strong>
+    <a href="{{ object.get_absolute_url }}">
+      <strong class="no-underline text-info">{{ object.title }}</strong>
+    </a>
   </div>
   <div class="display-6 text-right">
     <span class="h3">~</span>
