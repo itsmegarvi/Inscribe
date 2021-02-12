@@ -166,3 +166,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # The URL to use when referring to static files (where they will be served from)
 STATIC_URL = "/static/"
+
+# this setting will control whether to use multiprocessing for graph generation
+# set it to True for multiprocessing otherwise False
+INSCRIBE_MULTIPROCESSING = True
