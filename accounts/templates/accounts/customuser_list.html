@@ -7,24 +7,22 @@
 <!-- prettier-ignore -->
 {%  block body %}
 
-<div class="container text-white">
-  <div class="p-3">
-    <form method="GET">
-      <div class="form-group">
-        <input
-          class="form-control"
-          type="text"
-          name="q"
-          value="{{ request.GET.q }}"
-        />
-        <input
-          class="btn btn-primary btn-block mt-3"
-          type="submit"
-          value="Search"
-        />
-      </div>
+<div class="container" align="center">
+  <div class="col-sm d-flex flex-column p-3 justify-content-between">
+    <form method='GET'>
+      <input
+        type='text'
+        name='q'
+        value='{{ request.GET.q }}'
+      >
+      <input
+        class="button"
+        type='submit'
+        value="Search"
+      >
     </form>
   </div>
+</div>
   {% for user in object_list %}
   <div class="card w-100 my-4 color-dark-blue">
     <div class="card-body">
