@@ -42,13 +42,33 @@
   <body>
     <div>
       <!-- prettier-ignore -->
-      <div id="page-wrapper" class="toggled">
+      <div id="page-wrapper" class="toggled min-vh-100">
         {% include 'includes/messages.html' %}
 
         {% block navbar_toggler %}
         {% include 'includes/navbar-toggler.html' %}
         {% endblock %}
 
+        <div class="watermark" style="right: 30px; bottom: 30px">
+          Sentiment Analysis
+        </div>
+        <div class="watermark" style="left: 30px; top: 30px">Note Taking</div>
+        <div class="watermark" style="left: 100px; top: 300px">Django</div>
+        <div
+          class="watermark"
+          style="
+            right: 30px;
+            bottom: 200px;
+            white-space: nowrap;
+            font-size: 80px !important;
+          "
+        >
+          Natural Language Processing
+        </div>
+        <div class="watermark" style="right: 0px; top: 40%">Multiprocessing</div>
+        <div class="watermark" style="right: 0px; top: 150px">
+          Graphs and Matplotlib
+        </div>
         {% block navbar %}
         {% include 'includes/navbar.html' %}
         {% endblock %}
