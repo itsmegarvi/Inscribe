@@ -3,12 +3,13 @@ import io
 import multiprocessing as mp
 import re
 import string
-from typing import Any, Dict, List
+from typing import Dict, List
 from urllib import parse
 
 import matplotlib.pyplot as plt
 import pandas as pd
 import plotly.express as px
+from django.conf import settings
 from nltk import FreqDist, tokenize
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -79,7 +80,7 @@ def parse_text(text: str) -> List[Sentence]:
     return TextBlob(text).sentences
 
 
-def create_dataframe(sentences: List[Sentence]) -> Any:
+def create_dataframe(sentences: List[Sentence]) -> pd.DataFrame:
     data: Dict = {"Sentence Index": [], "Text": []}
     for index, sentence in enumerate(sentences, 1):
         data["Sentence Index"].append(index)
@@ -146,7 +147,7 @@ def generate_frequency_distribution_report(df: pd.DataFrame) -> str:
     fig = px.bar(
         y=counts,
         x=words,
-        labels={"x": "Words", "y": "Number of occurrences"},
+        labels={"x": "Word", "y": "Number of occurrences"},
         title="Top 10 appearing words",
     )
     data = plot(fig, output_type="div", auto_open=False)
@@ -160,24 +161,36 @@ def generate_report(text: str) -> Dict:
     sentences = TextBlob(text).sentences
     report = create_dataframe(sentences)
 
-    process_1 = mp.Process(target=create_polarity_distribution_bar_plot, args=(report,))
-    process_2 = mp.Process(
-        target=create_polarity_distribution_scatter_plot, args=(report,)
-    )
-    process_3 = mp.Process(target=generate_frequency_distribution_report, args=(report,))
-    process_4 = mp.Process(target=create_wordcloud, args=(report,))
-    process_1.start()
-    process_2.start()
-    process_3.start()
-    process_4.start()
-    polarity_distribution_bar_plot = PROCESS_QUEUE_1.get()
-    polarity_distribution_scatter_plot = PROCESS_QUEUE_2.get()
-    frequency_distribution_report = PROCESS_QUEUE_3.get()
-    wordcloud = PROCESS_QUEUE_4.get()
-    process_1.join()
-    process_2.join()
-    process_3.join()
-    process_4.join()
+    if not settings.INSCRIBE_MULTIPROCESSING:
+        polarity_distribution_bar_plot = create_polarity_distribution_bar_plot(report)
+        polarity_distribution_scatter_plot = create_polarity_distribution_scatter_plot(
+            report
+        )
+        frequency_distribution_report = generate_frequency_distribution_report(report)
+        wordcloud = create_wordcloud(report)
+    else:
+        process_1 = mp.Process(
+            target=create_polarity_distribution_bar_plot, args=(report,)
+        )
+        process_2 = mp.Process(
+            target=create_polarity_distribution_scatter_plot, args=(report,)
+        )
+        process_3 = mp.Process(
+            target=generate_frequency_distribution_report, args=(report,)
+        )
+        process_4 = mp.Process(target=create_wordcloud, args=(report,))
+        process_1.start()
+        process_2.start()
+        process_3.start()
+        process_4.start()
+        polarity_distribution_bar_plot = PROCESS_QUEUE_1.get()
+        polarity_distribution_scatter_plot = PROCESS_QUEUE_2.get()
+        frequency_distribution_report = PROCESS_QUEUE_3.get()
+        wordcloud = PROCESS_QUEUE_4.get()
+        process_1.join()
+        process_2.join()
+        process_3.join()
+        process_4.join()
     return {
         "report": report.to_html(
             classes=[
