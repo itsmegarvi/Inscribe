@@ -23,54 +23,61 @@
   </div>
 </div>
 <div class="container text-white">
-  {% for following in object_list %}
-  <div class="card w-100 my-4 color-dark-blue">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-sm d-flex flex-column p-3 justify-content-between">
-          <div class="border-bottom border-danger">
-            <a
-              href="{% url 'accounts:info' pk=following.user.pk %}"
-              class="no-underline"
-            >
-              <h1 class="text-capitalize">
-                <strong>{{ following.user.full_name }}</strong>
-              </h1></a
-            >
-            <h3>{{ following.user.email }}</h3>
-          </div>
-          <div class="py-3 text-justify">
-            Number of notes published: {{ following.user.note_set.count }}
+  {% if object_list %}
+    {% for following in object_list %}
+      <div class="card w-100 my-4 color-dark-blue">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm d-flex flex-column p-3 justify-content-between">
+              <div class="border-bottom border-danger">
+                <a
+                  href="{% url 'accounts:info' pk=following.user.pk %}"
+                  class="no-underline"
+                >
+                <h1 class="text-capitalize">
+                  <strong>{{ following.user.full_name }}</strong>
+                </h1></a
+                >
+                <h3>{{ following.user.email }}</h3>
+              </div>
+            <div class="py-3 text-justify">
+              Number of notes published: {{ following.user.note_set.count }}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  {% endfor %}
-  <div class="pagination text-white d-flex">
-    <span class="step-links mx-auto border border-info rounded p-2">
-      {% if page_obj.has_previous %}
-      <a href="?page=1" class="m-2">
-        <i class="fa fa-backward"></i>
-      </a>
-      <a href="?page={{ page_obj.previous_page_number }}" class="m-1">
-        <i class="fa fa-arrow-left"></i>
-      </a>
-      {% endif %}
+    <div class="pagination text-white d-flex">
+      <span class="step-links mx-auto border border-info rounded p-2">
+        {% if page_obj.has_previous %}
+        <a href="?page=1" class="m-2">
+          <i class="fa fa-backward"></i>
+        </a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="m-1">
+          <i class="fa fa-arrow-left"></i>
+        </a>
+        {% endif %}
 
-      <span class="current">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        <span class="current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="m-2">
+          <i class="fa fa-arrow-right"></i>
+        </a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="m-2">
+          <i class="fa fa-forward"></i>
+        </a>
+        {% endif %}
       </span>
-
-      {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}" class="m-2">
-        <i class="fa fa-arrow-right"></i>
-      </a>
-      <a href="?page={{ page_obj.paginator.num_pages }}" class="m-2">
-        <i class="fa fa-forward"></i>
-      </a>
-      {% endif %}
-    </span>
-  </div>
+    </div>
+    {% endfor %}
+  <!-- prettier-ignore -->
+  {% else %}
+    <div class="container" align="center">
+      <h3>Sorry, We can't Find a user named {{ request.GET.q }} </h3>
+    </div>
+  {% endif %}
 </div>
 {% endblock %}
