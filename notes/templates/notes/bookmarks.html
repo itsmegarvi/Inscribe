@@ -18,37 +18,45 @@
   </div>
 </div>
 <div class="text-white">
-  <ol>
-    {% for note in object_list %}
-    <li><a href="{{ note.get_absolute_url }}">{{ note }}</a></li>
-    <p>{{note.writer}}</p>
-    <p>{{note.created_at}}</p>
-    {% endfor %}
-  </ol>
-  <div class="pagination text-white d-flex">
-    <span class="step-links mx-auto border border-info rounded p-2">
-      {% if page_obj.has_previous %}
-      <a href="?page=1" class="m-2">
-        <i class="fa fa-backward"></i>
-      </a>
-      <a href="?page={{ page_obj.previous_page_number }}" class="m-1">
-        <i class="fa fa-arrow-left"></i>
-      </a>
-      {% endif %}
+  {% if object_list %}
+    <ol>
+      {% for note in object_list %}
+        <li><a href="{{ note.get_absolute_url }}">{{ note }}</a></li>
+        <p>{{note.writer}}</p>
+        <p>{{note.created_at}}</p>
+      {% endfor %}
+    </ol>
+    <div class="pagination text-white d-flex">
+      <span class="step-links mx-auto border border-info rounded p-2">
+        {% if page_obj.has_previous %}
+        <a href="?page=1" class="m-2">
+          <i class="fa fa-backward"></i>
+        </a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="m-1">
+          <i class="fa fa-arrow-left"></i>
+        </a>
+        {% endif %}
 
-      <span class="current">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        <span class="current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="m-2">
+          <i class="fa fa-arrow-right"></i>
+        </a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="m-2">
+          <i class="fa fa-forward"></i>
+        </a>
+        {% endif %}
       </span>
-
-      {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}" class="m-2">
-        <i class="fa fa-arrow-right"></i>
-      </a>
-      <a href="?page={{ page_obj.paginator.num_pages }}" class="m-2">
-        <i class="fa fa-forward"></i>
-      </a>
-      {% endif %}
-    </span>
-  </div>
+    </div>
+  <!-- prettier-ignore -->
+  {% else %}
+    <div class="container" align="center">
+      <h3>Sorry, We can't find a note named {{ request.GET.q }} </h3>
+      <img src="https://cdn.images.express.co.uk/img/dynamic/128/590x/secondary/Cute-puppy-pictures-science-why-adorable-puppies-1355345.jpg">
+    </div>
+  {% endif %}
 </div>
 {% endblock %}
