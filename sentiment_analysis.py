@@ -16,7 +16,6 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.tag import pos_tag
 from plotly.offline import plot
 from textblob import Sentence, TextBlob
-from wordcloud import STOPWORDS, WordCloud
 
 PROCESS_QUEUE_1: mp.Queue = mp.Queue()
 PROCESS_QUEUE_2: mp.Queue = mp.Queue()
@@ -53,7 +52,6 @@ def remove_noise(tweet_tokens, stop_words=()):
             len(token) > 2
             and token not in string.punctuation
             and token.lower() not in stop_words
-            and token.lower() not in STOPWORDS
         ):
             cleaned_tokens.append(token.lower())
     return cleaned_tokens
@@ -118,6 +116,8 @@ def create_polarity_distribution_scatter_plot(df: pd.DataFrame) -> str:
 
 
 def create_wordcloud(df: pd.DataFrame) -> str:
+    from wordcloud import STOPWORDS, WordCloud
+
     all_words = " ".join(df["Text"])
     word_cloud = WordCloud(
         height=500, width=500, stopwords=STOPWORDS, collocations=False
