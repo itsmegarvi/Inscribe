@@ -13,3 +13,6 @@
   transform: scale(1.5);
   color: #720505 !important;
 }
+.watermark {
+  opacity: 0.008 !important;
+}
