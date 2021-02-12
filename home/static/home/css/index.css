@@ -1,3 +1,34 @@
 .display-7 {
   font-size: 2.5rem;
 }
+button {
+  border: 4px solid #302f3a;
+  color: #302f3a;
+  position: relative;
+  margin: 2rem 3rem;
+  padding: 1rem 2rem;
+  font-size: 1.15rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: -0.6rem;
+  top: -0.5rem;
+  z-index: -1;
+  background-color: #f7567c;
+  transition: all 200ms ease-out;
+}
+
+button:hover::before {
+  top: 0;
+  left: 0;
+}
+
+.button--bop:active {
+  transform: translateY(3px);
+}

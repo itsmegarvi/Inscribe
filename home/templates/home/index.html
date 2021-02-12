@@ -2,6 +2,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block additional_css %}
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap"
+  rel="stylesheet"
+/>
 {% endblock %}
 
 <!-- prettier-ignore -->
@@ -12,6 +17,68 @@ Inscribe
 <!-- prettier-ignore -->
 {% block body %}
 <div>
-  <div class="container-fluid text-white position-relative"></div>
+  <div id="watermark-wrapper" style="display: none">
+    <div class="watermark" style="right: 30px; bottom: 30px">
+      Sentiment Analysis
+    </div>
+    <div class="watermark" style="left: 30px; top: 30px">Note Taking</div>
+    <div class="watermark" style="left: 100px; top: 300px">Django</div>
+    <div
+      class="watermark"
+      style="
+        right: 30px;
+        bottom: 200px;
+        white-space: nowrap;
+        font-size: 80px !important;
+      "
+    >
+      Natural Language Processing
+    </div>
+    <div class="watermark" style="right: 0px; top: 40%">Multiprocessing</div>
+    <div class="watermark" style="right: 0px; top: 150px">
+      Graphs and Matplotlib
+    </div>
+  </div>
+  <div
+    class="container-fluid h-100 d-flex text-white justify-content-around flex-column"
+  >
+    <div
+      class="display-1 text-center my-5"
+      style="font-family: 'Major Mono Display', monospace"
+    >
+      INSCRIBE
+    </div>
+    <div
+      id="typewriter"
+      class="display-5 mx-5"
+      style="font-family: 'Indie Flower', cursive"
+    ></div>
+    <div>
+      <div class="d-flex">
+        {% if user.is_authenticated %}
+        <a
+          style="font-size: 40px"
+          class="mx-auto"
+          href="{% url 'notes:create' %}"
+        >
+          <button class="pulse-effect">NEW NOTE</button>
+        </a>
+        {% else %}
+        <a
+          style="font-size: 40px"
+          class="mx-auto"
+          href="{% url 'home:playground' %}"
+        >
+          <button class="pulse-effect">PLAYGROUND</button>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </div>
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block additional_js %}
+<script src="{% static 'home/js/index.js' %}"></script>
 {% endblock %}
