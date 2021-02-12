@@ -132,6 +132,7 @@ if DEBUG:
     SHELL_PLUS = "ipython"
     INSTALLED_APPS.append("django_extensions")
     RUNSERVERPLUS_SERVER_ADDRESS_PORT = "0.0.0.0:8000"
+    MIDDLEWARE.append("middlewares.StatsMiddleware")
 
 DATABASES = {
     "default": {
