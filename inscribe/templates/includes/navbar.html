@@ -8,14 +8,20 @@
   >
     <a href="{% url 'home:index' %}" class="no-underline">
       <div class="text-center pt-3 text-uppercase text-responsive">
-        <div class="text-warning m-2 d-flex justify-content-around">
+        <div class="text-warning m-2 d-flex flex-column justify-content-around">
           <img
             src="{% static 'images/logo.svg' %}"
-            height="40px"
-            width="40px"
+            height="60px"
+            width="60px"
+            class="align-self-center"
             alt="inscribe logo"
           />
-          <div class="text-warning d-none d-sm-block">Inscribe</div>
+          <div
+            class="text-warning d-none d-sm-block"
+            style="font-family: 'Major Mono Display', monospace"
+          >
+            Inscribe
+          </div>
         </div>
       </div>
     </a>
