@@ -31,7 +31,7 @@ $("#analysis-form").submit(function (e) {
 const happyFace = $("#happy-face");
 const neutralFace = $("#neutral-face");
 const sadFace = $("#sad-face");
-const classToAdd = "text-yellow";
+const classToAdd = "text-green";
 
 $("#input-statement").on("input", function (element) {
   const input = $('input[name="query"]').val();
