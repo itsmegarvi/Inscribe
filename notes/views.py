@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
@@ -105,12 +105,11 @@ class PrivateListView(ListView):
         query = self.request.GET.get("q")
         if query:
             return self.model.objects.filter(title__icontains=query)
-        else:
-            user_id = self.kwargs.get("pk")
-            user = USER_MODEL.objects.get(id=user_id)
-            return models.Note.objects.filter(hidden=True, writer=user).order_by(
-                "-updated_at"
-            )
+        user_id = self.kwargs.get("pk")
+        user = USER_MODEL.objects.get(id=user_id)
+        return models.Note.objects.filter(hidden=True, writer=user).order_by(
+            "-updated_at"
+        )
 
 
 class PublicListView(ListView):
@@ -125,12 +124,11 @@ class PublicListView(ListView):
         query = self.request.GET.get("q")
         if query:
             return self.model.objects.filter(title__icontains=query)
-        else:
-            user_id = self.kwargs.get("pk")
-            user = USER_MODEL.objects.get(id=user_id)
-            return models.Note.objects.filter(hidden=False, writer=user).order_by(
-                "-updated_at"
-            )
+        user_id = self.kwargs.get("pk")
+        user = USER_MODEL.objects.get(id=user_id)
+        return models.Note.objects.filter(hidden=False, writer=user).order_by(
+            "-updated_at"
+        )
 
 
 class DraftListView(ListView):
@@ -138,13 +136,15 @@ class DraftListView(ListView):
 
     model = models.Note
     paginate_by = 10
-    queryset = models.Note.objects.filter(draft=True).order_by("-updated_at")
     template_name = "notes/drafts.html"
 
     def get_queryset(self):
         query = self.request.GET.get("q")
+        qs = self.model.objects.filter(Q(draft=True))
         if query:
-            return self.model.objects.filter(title__icontains=query)
+            qs = self.model.objects.filter(Q(draft=True) | Q(title__icontains=True))
+        return qs
+
 
 class BookmarkListView(CustomLoginRequiredMixin, ListView):
     """ This view will handle display of bookmarks """
@@ -157,11 +157,10 @@ class BookmarkListView(CustomLoginRequiredMixin, ListView):
         query = self.request.GET.get("q")
         if query:
             return self.model.objects.filter(title__icontains=query)
-        else:
-            user_id = self.kwargs.get("pk")
-            user = USER_MODEL.objects.get(id=user_id)
-            bookmarks = models.Bookmark.objects.filter(user=self.request.user)
-            return [bookmark.note for bookmark in bookmarks]
+        user_id = self.kwargs.get("pk")
+        user = USER_MODEL.objects.get(id=user_id)
+        bookmarks = models.Bookmark.objects.filter(user=user)
+        return [bookmark.note for bookmark in bookmarks]
 
 
 def toggle_bookmark_view(request):
