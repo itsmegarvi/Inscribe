@@ -17,22 +17,22 @@ Inscribe | Discover
   <div class="m-auto display-5 text-center flex-column">
     <div class="my-5 p-2 rounded-lg text-info text-hover-color">
       <a href="{% url 'accounts:followers' %}">
-        <strong>Followers</strong>
+        <button class = 'btn-special draw-border'>Followers</button>
       </a>
     </div>
     <div class="my-5 p-2 rounded-lg text-info text-hover-color">
       <a href="{% url 'accounts:following' %}">
-        <strong>Following</strong>
+        <button class = 'btn-special draw-border'>Following</button>
       </a>
     </div>
     <div class="my-5 p-2 rounded-lg text-info text-hover-color">
       <a href="{% url 'accounts:update' pk=user.pk %}"
-        ><strong>Update Profile</strong>
+        ><button class = 'btn-special draw-border'>Update profile</button>
       </a>
     </div>
     <div class="my-5 p-2 rounded-lg text-info text-hover-color">
       <a href="{% url 'accounts:info' pk=user.pk %}"
-        ><strong>Profile Information</strong>
+        ><button class = 'btn-special draw-border'>Profile Information</button>
       </a>
     </div>
   </div>

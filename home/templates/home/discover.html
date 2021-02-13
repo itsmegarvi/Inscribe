@@ -17,19 +17,19 @@ Inscribe | Discover
   <div class="m-auto display-5 text-center flex-column">
     {% if user.is_authenticated %}
     <div class="my-5 p-2 rounded-lg text-info text-hover-color">
-      <a href="{% url 'accounts:info' pk=user.pk %}"
-        ><strong>Your profile</strong></a
-      >
+      <a href="{% url 'accounts:info' pk=user.pk %}">
+       <button class = 'btn-special draw-border'>Your profile</button>
+        </a>
     </div>
     {% endif %}
     <div class="my-5 p-2 rounded-lg text-info text-hover-color">
       <a href="{% url 'accounts:discover' %}">
-        <strong>Discover users</strong>
+      <button class = 'btn-special draw-border'>Discover users</button>
       </a>
     </div>
     <div class="my-5 p-2 rounded-lg text-info text-hover-color">
       <a href="{% url 'notes:list' %}">
-        <strong>Discover notes</strong>
+        <button class = 'btn-special draw-border'>Discover notes</button>
       </a>
     </div>
   </div>
