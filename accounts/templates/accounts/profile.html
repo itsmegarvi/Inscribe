@@ -1,0 +1,41 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+{% load static %}
+{% block additional_css %}
+<link href="{% static 'home/css/discover.css' %}" rel="stylesheet" />
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block title %}
+Inscribe | Discover
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block body %}
+
+<div class="container d-flex text-white h-100">
+  <div class="m-auto display-5 text-center flex-column">
+    <div class="my-5 p-2 rounded-lg text-info text-hover-color">
+      <a href="{% url 'accounts:followers' %}">
+        <button class = 'btn-special draw-border'>Followers</button>
+      </a>
+    </div>
+    <div class="my-5 p-2 rounded-lg text-info text-hover-color">
+      <a href="{% url 'accounts:following' %}">
+        <button class = 'btn-special draw-border'>Following</button>
+      </a>
+    </div>
+    <div class="my-5 p-2 rounded-lg text-info text-hover-color">
+      <a href="{% url 'accounts:update' pk=user.pk %}"
+        ><button class = 'btn-special draw-border'>Update profile</button>
+      </a>
+    </div>
+    <div class="my-5 p-2 rounded-lg text-info text-hover-color">
+      <a href="{% url 'accounts:info' pk=user.pk %}"
+        ><button class = 'btn-special draw-border'>Profile Information</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

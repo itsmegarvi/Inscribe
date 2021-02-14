@@ -1,0 +1,38 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+{% load static %}
+{% block additional_css %}
+<link href="{% static 'home/css/discover.css' %}" rel="stylesheet" />
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block title %}
+Inscribe | Discover
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block body %}
+
+<div class="container d-flex text-white h-100">
+  <div class="m-auto display-5 text-center flex-column">
+    {% if user.is_authenticated %}
+    <div class="my-5 p-2 rounded-lg text-info text-hover-color">
+      <a href="{% url 'accounts:info' pk=user.pk %}">
+       <button class = 'btn-special draw-border'>Your profile</button>
+        </a>
+    </div>
+    {% endif %}
+    <div class="my-5 p-2 rounded-lg text-info text-hover-color">
+      <a href="{% url 'accounts:discover' %}">
+      <button class = 'btn-special draw-border'>Discover users</button>
+      </a>
+    </div>
+    <div class="my-5 p-2 rounded-lg text-info text-hover-color">
+      <a href="{% url 'notes:list' %}">
+        <button class = 'btn-special draw-border'>Discover notes</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

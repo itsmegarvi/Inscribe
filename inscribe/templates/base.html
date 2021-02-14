@@ -1,0 +1,91 @@
+<!-- prettier-ignore -->
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{% static 'favicon.ico' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'favicon-32x32.png' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{% static 'favicon-16x16.png' %}"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>{% block title %}Inscribe{% endblock %}</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
+    <link href="{% static 'home/css/index.css' %}" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap"
+      rel="stylesheet"
+    />
+    <link href="{% static 'css/base.css' %}" rel="stylesheet" />
+    {% block additional_css %}{% endblock %}
+  </head>
+
+  <body>
+    <div>
+      <!-- prettier-ignore -->
+      <div id="page-wrapper" class="toggled min-vh-100">
+        {% include 'includes/messages.html' %}
+
+        {% block navbar_toggler %}
+        {% include 'includes/navbar-toggler.html' %}
+        {% endblock %}
+
+        {% block navbar %}
+        {% include 'includes/navbar.html' %}
+        {% endblock %}
+
+        <div id="body-wrapper">
+          <div>
+            {% block body %}
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.getElementById("sidebar").style.width = "15%";
+      document.getElementById("body-wrapper").style.marginLeft = "15%";
+
+      function toggleNavbar() {
+        const toggler = document.getElementById("page-wrapper");
+        toggler.classList.toggle("toggled");
+
+        if (toggler.classList.contains("toggled")) {
+          // the sidebar is open and should be closed
+          document.getElementById("sidebar").style.width = "15%";
+          document.getElementById("body-wrapper").style.marginLeft = "15%";
+        } else {
+          // the sidebar is closed and should be opened
+          document.getElementById("sidebar").style.width = "0px";
+          document.getElementById("body-wrapper").style.marginLeft = "0";
+        }
+      }
+    </script>
+    {% block additional_js %}{% endblock %}
+  </body>
+</html>

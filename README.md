@@ -18,7 +18,7 @@ database and can be accessed and edited later.
 ## Built With
 
 - [django](https://www.djangoproject.com/) - The main web framework used
-- [UIKit](https://getuikit.com/) - Used as the main UI framework
+- [Bootstrap](https://getbootstrap.com/) - Used as the main UI framework
 
 ## Contributing
 
@@ -37,5 +37,5 @@ details.
 
 ## Acknowledgments
 
+- Dr. Vijaypal Singh Rathor, PROFESSOR
 - Dr. Shashidhara, ASSISTANT PROFESSOR
-- Dr. Vijaypal Singh Rathor, ASSISTANT PROFESSOR

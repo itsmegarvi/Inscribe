@@ -1,0 +1,142 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'notes/css/detail.css' %}" />
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block title %}
+{{ note.title }}
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block body %}
+<div class="text-white container color-dark-blue px-2 rounded-lg">
+  <div class="display-4 text-center text-capitalize mt-4">
+    <strong class="text-info">{{ note.title }}</strong>
+  </div>
+  <div class="d-flex justify-content-between">
+    <div class="p-22">
+      <div class="align-self-center d-flex">
+        <div
+          id="like-button"
+          class="mx-2 align-self-center"
+          style="cursor: pointer"
+        >
+          <svg
+            id="heart-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            class="{{ buttonClass }}"
+          >
+            <path
+              fill="currentColor"
+              d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z"
+            />
+          </svg>
+        </div>
+        <div class="mx-2 display-6">
+          <strong id="bookmark-count">{{ bookmarks }}</strong>
+        </div>
+      </div>
+      <a
+        class="d-flex align-items-center mt-2"
+        href="{{ note.get_report_url }}"
+      >
+        <img
+          src="{% static 'icons/artificial-intelligence.svg' %}"
+          style="height: 40px; width: 40px"
+          alt="artificial intelligence icon"
+        />
+        <div class="text-danger ml-2" style="font-size: larger">
+          Sentiment Analysis
+        </div>
+      </a>
+      {% if note.writer == user %}
+      <a
+        class="d-flex align-items-center mt-2"
+        href="{{ note.get_update_url }}"
+      >
+        <img
+          src="{% static 'icons/pen.svg' %}"
+          style="height: 40px; width: 40px"
+          alt="pen icon"
+        />
+        <div class="text-danger ml-2" style="font-size: larger">Edit</div>
+      </a>
+      {% endif %}
+    </div>
+    <div class="display-6 text-right">
+      <span class="h3">~ by</span>
+      <a href="{% url 'accounts:info' pk=note.writer.pk %}">
+        <em>{{ note.writer.full_name }}</em>
+      </a>
+    </div>
+  </div>
+  <div class="text-right">
+    <p class="text-warning">{{ note.created_at | date:"M d, Y" }}</p>
+  </div>
+  <div class="p-5 p-sm-5 markdown-content">
+    {{ note.formatted_markdown | safe }}
+  </div>
+  <form class="d-none">
+    <input id="note-id" value="{{ note.id }}" />
+    <input id="is-authenticated" value="{{ user.is_authenticated }}" />
+  </form>
+  <div class="bg-danger" style="height: 2px"></div>
+  <div>
+    <div class="comment p-5">
+      <h3>Add Your Comment</h3>
+      {% if not user.is_authenticated %}
+      <div class="alert alert-danger" role="alert">
+        You need to be <a href="{% url 'accounts:login' %}">logged</a> in to
+        post a comment.
+      </div>
+      {% else %}
+      <form method="post" class="mt-3">
+        {{ comment_form | crispy }} {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-block my-2">
+          Post
+        </button>
+      </form>
+      {% endif %}
+    </div>
+
+    <div class="comment-section p-3 m-4">
+      <div class="h4 p-2">{{ comments.count }} comment(s)</div>
+      <!-- prettier-ignore -->
+      {% if comments %}
+      {% for comment in comments %}
+      {% if comment.is_active %}
+      <div class="shadow-lg p-2 rounded-lg my-4">
+        <div class="row">
+          <div class="col-sm text-info" style="font-size: larger">
+            {{ comment.user.full_name }}
+          </div>
+          <div class="col-sm ml-5 align-self-center">
+            {{ comment.posted_on | timesince }} ago
+          </div>
+        </div>
+        <div class="mt-3" style="font-size: large">{{ comment.content }}</div>
+      </div>
+      <!-- prettier-ignore -->
+      {% endif %}
+      {% endfor %}
+      {% else %}
+      <div class="shadow-lg p-2 rounded-lg text-danger display-6">
+        No comments, be the first one to comment!
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block additional_js %}
+<script src="{% static 'notes/js/detail.js' %}"></script>
+{% endblock %}

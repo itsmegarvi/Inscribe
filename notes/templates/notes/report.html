@@ -1,0 +1,84 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+{% load static %}
+{% block additional_css %}
+<link href="{% static 'home/css/index.css' %}" rel="stylesheet" />
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block title %}
+Inscribe
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block body %}
+<div class="text-white container">
+  <div class="display-4 text-center text-capitalize mt-4">
+    <a href="{{ object.get_absolute_url }}">
+      <strong class="no-underline text-info">{{ object.title }}</strong>
+    </a>
+  </div>
+  <div class="display-6 text-right">
+    <span class="h3">~</span>
+    <em>a detailed sentiment analysis</em>
+  </div>
+  <div>
+    <div style="font-size: larger">What the terms mean:</div>
+    <div>
+      <div>
+        <u class="text-danger">Polarity</u>: How positive the sentence is. A
+        score of <code>+1</code> means very <strong>positive</strong> and score
+        of <code>-1</code> means <strong>negative</strong> and
+        <code>0</code> means <strong>neutral</strong>.
+      </div>
+      <div>
+        <u class="text-danger">Subjectivity</u>: Subjective sentence expresses
+        some personal feelings, views, or beliefs. subjective sentence may not
+        express any sentiment. For example, "I think that he went home" and "I
+        want a camera that can take good photos" are a subjective sentences, but
+        does not express any sentiment.
+      </div>
+      <div>
+        <u class="text-danger">Sentence Token</u>: The index of the sentence in
+        the actual blog body
+      </div>
+    </div>
+  </div>
+  {% with final_report=object.generate_report %}
+  <div class="shadow-sm p-5 text-dark">
+    <div class="mt-2">
+      <div class="row">
+        <div class="col-sm-6 d-flex flex-column">
+          <div class="text-info text-center mb-2">
+            The most occurring words in this note
+          </div>
+          <img
+            src="{{ final_report.wordcloud | safe }}"
+            alt="word cloud image"
+            class="img-fluid mx-auto"
+          />
+        </div>
+        <div class="col-sm-6">
+          {{ final_report.frequency_distribution_report | safe }}
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-sm-6">
+          {{ final_report.polarity_distribution_bar_plot | safe }}
+        </div>
+        <div class="col-sm-6">
+          {{ final_report.polarity_distribution_scatter_plot | safe }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="shadow-sm p-5">
+    <div class="mt-2">{{ final_report.report | safe }}</div>
+  </div>
+  {% endwith %}
+</div>
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block additional_js %}
+{% endblock %}

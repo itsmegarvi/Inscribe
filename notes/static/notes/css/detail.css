@@ -1,0 +1,18 @@
+.markdown-content img {
+  display: block;
+  height: auto;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+}
+.button-liked {
+  color: #ff0000 !important;
+}
+#heart-icon:hover {
+  transform: scale(1.5);
+  color: #720505 !important;
+}
+.watermark {
+  opacity: 0.008 !important;
+}

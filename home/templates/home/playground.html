@@ -1,0 +1,70 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+<!-- prettier-ignore -->
+{% block title %}
+Inscribe | Playground
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block additional_css %}
+<link href="{% static 'home/css/playground.css' %}" rel="stylesheet" />
+<!-- prettier-ignore -->
+{% endblock %}
+
+{% block body %}
+<div class="container d-flex text-white flex-column h-100">
+  <div class="display-5 text-center mt-3 text-info">
+    How are you feeling today?
+  </div>
+  <div class="d-flex mt-3">
+    <form
+      class="m-auto d-flex w-100"
+      id="analysis-form"
+      method="GET"
+      style="height: 300px"
+    >
+      <div class="my-auto w-100 row">
+        <input
+          id="input-statement"
+          class="form-control w-50 mx-auto"
+          name="query"
+          type="text"
+          placeholder="Type something..."
+        />
+      </div>
+    </form>
+  </div>
+  <div class="row w-100">
+    <div class="display-6 text-center mb-4">
+      <strong class="text-muted">I think you are feeling...</strong>
+    </div>
+  </div>
+  <div class="w-100 h-100 row">
+    <div id="face" class="col-4 mx-auto">
+      <svg
+        id="neutral-face"
+        class="img-fluid text-muted"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4 17h-8v-2h8v2zm-7.5-9c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5zm7 0c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5z"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block additional_js %}
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+  integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+  crossorigin="anonymous"
+></script>
+<script src="{% static 'home/js/playground.js' %}"></script>
+{% endblock %}
