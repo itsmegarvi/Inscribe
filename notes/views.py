@@ -142,7 +142,7 @@ class DraftListView(ListView):
         query = self.request.GET.get("q")
         qs = self.model.objects.filter(Q(draft=True))
         if query:
-            qs = self.model.objects.filter(Q(draft=True) | Q(title__icontains=True))
+            qs = self.model.objects.filter(Q(draft=True) & Q(title__icontains=query))
         return qs
 
 
