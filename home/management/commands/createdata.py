@@ -28,14 +28,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        if settings.DEBUG is not True:
-            self.stdout.write(
-                self.style.ERROR(
-                    "This command can not be used in a production environment"
-                )
-            )
-            exit(1)
-
         instances = int(options["instances"])
 
         fake = Faker()
