@@ -49,6 +49,7 @@ class Command(BaseCommand):
                 last_name=fake.last_name(),
                 email=fake.email(),
                 password=fake.password(),
+                username=fake.username(),
             )
             users.append(user)
         self.stdout.write(self.style.SUCCESS(f"\nCreated {instances} custom users"))
