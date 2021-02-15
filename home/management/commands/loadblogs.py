@@ -30,7 +30,7 @@ class Command(BaseCommand):
                 note = notes_models.Note.objects.create(
                     title=fake.sentence(),
                     writer=super_user,
-                    description=fake.paragraph(5),
+                    description=fake.paragraph(2),
                     body=file.read(),
                 )
                 notes.append(note)
