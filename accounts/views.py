@@ -6,8 +6,13 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import (CreateView, DetailView, ListView,
-                                  TemplateView, UpdateView)
+from django.views.generic import (
+    CreateView,
+    DetailView,
+    ListView,
+    TemplateView,
+    UpdateView,
+)
 from mixins import CustomLoginRequiredMixin
 from notes import models as notes_models
 
@@ -36,16 +41,15 @@ class CustomUserDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["notes"] = notes_models.Note.objects.filter(writer=context["object"])
+        followers = accounts_models.CustomUserFollowing.objects.filter(
+            user=context["object"]
+        ).count()
+        buttonClass = "text-info" if followers == 1 else "text-black"
+        context["followers"] = followers
+        context["buttonClass"] = buttonClass
         context["followers"] = accounts_models.CustomUserFollowing.objects.filter(
             user=context["object"]
         ).count()
-        user = self.request.user
-        followers = accounts_models.CustomUserFollowing.objects.filter(
-            follower=user, user=context["object"]
-        ).count()
-        buttonClass = "text-info" if followers == 1 else "text-black"
-        context["buttonClass"] = buttonClass
-        context["followers"] = followers
         return context
 
 
