@@ -201,7 +201,7 @@ def generate_report(text: str) -> Dict:
                 "table-responsive-xl",
             ],
             index=False,
-            justify="center",
+            justify="left",
             show_dimensions=True,
         ),
         "polarity_distribution_bar_plot": polarity_distribution_bar_plot,
