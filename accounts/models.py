@@ -33,23 +33,25 @@ class CustomUser(AbstractUser):
 class CustomUserFollowing(models.Model):
 
     user = models.ForeignKey(
-        "accounts.CustomUser", related_name="following", on_delete=models.CASCADE,
-        help_text=_('The user that is being followed')
+        "accounts.CustomUser",
+        related_name="following",
+        on_delete=models.CASCADE,
+        help_text=_("The user that is being followed"),
     )
     follower = models.ForeignKey(
-        "accounts.CustomUser", related_name="followers", on_delete=models.CASCADE,
-        help_text=_('The user that is doing the following')
+        "accounts.CustomUser",
+        related_name="followers",
+        on_delete=models.CASCADE,
+        help_text=_("The user that is doing the following"),
     )
     created = models.DateTimeField(auto_now_add=True, db_index=True)
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(
-                fields=["user", "follower"], name="unique_followers"
-            )
+            models.UniqueConstraint(fields=["user", "follower"], name="unique_followers")
         ]
 
         ordering = ["-created"]
 
     def __str__(self):
-        f"{self.user_id} follows {self.following_user_id}"
+        return f"{self.user.full_name()} is followed by {self.follower.full_name()}"
