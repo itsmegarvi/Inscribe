@@ -18,6 +18,9 @@ followButton.addEventListener("click", function () {
   })
     .then(async function (response) {
       let resp = await response.json();
+      if (response.status == 201) {
+        throw new Error("You can not follow yourself");
+      }
       if (resp.status) {
         userIcon.classList.add("text-info");
         userIcon.classList.remove("text-black");
@@ -28,9 +31,8 @@ followButton.addEventListener("click", function () {
         followerCount.innerHTML--;
       }
     })
-    .catch(async function (response) {
-      let resp = await response.json();
-      alert(`There was an error: ${resp.message}`);
+    .catch(function (response) {
+      alert(response.message);
     });
   return;
 });
