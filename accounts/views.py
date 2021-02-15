@@ -3,15 +3,11 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DetailView,
-    ListView,
-    TemplateView,
-    UpdateView,
-)
+from django.views.generic import (CreateView, DetailView, ListView,
+                                  TemplateView, UpdateView)
 from mixins import CustomLoginRequiredMixin
 from notes import models as notes_models
 
@@ -43,6 +39,13 @@ class CustomUserDetailView(DetailView):
         context["followers"] = accounts_models.CustomUserFollowing.objects.filter(
             user=context["object"]
         ).count()
+        user = self.request.user
+        followers = accounts_models.CustomUserFollowing.objects.filter(
+            follower=user, user=context["object"]
+        ).count()
+        buttonClass = "text-info" if followers == 1 else "text-black"
+        context["buttonClass"] = buttonClass
+        context["followers"] = followers
         return context
 
 
@@ -54,8 +57,7 @@ class CustomUserDiscoverView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("q")
         if query:
-            object_list = self.model.objects.filter(first_name__icontains=query)
-            return object_list
+            return self.model.objects.filter(first_name__icontains=query)
         else:
             return accounts_models.CustomUser.objects.all()[:10]
 
@@ -118,3 +120,29 @@ class FollowingsView(CustomLoginRequiredMixin, ListView):
         return self.model.objects.filter(
             user__first_name__icontains=query, follower=self.request.user
         )
+
+
+def toggle_following(request, following_id):
+    """When this view receives a request, it will toggle whether the user
+    associated with the current request follows the user associated with
+    `following_id`."""
+    follower = request.user
+    following = accounts_models.CustomUser.objects.get(id=following_id)
+    if follower == following:
+        status = False
+        message = "Yoo can not follow yourself!"
+        return JsonResponse({"message": message, "status": status}, status=201)
+    else:
+        try:
+            accounts_models.CustomUserFollowing.objects.get(
+                follower=follower, user=following
+            ).delete()
+            status = False
+            message = "The user was un-followed successfully!"
+        except accounts_models.CustomUserFollowing.DoesNotExist:
+            accounts_models.CustomUserFollowing.objects.create(
+                user=following, follower=follower
+            )
+            status = True
+            message = "The user was followed successfully!"
+    return JsonResponse({"status": status, "message": message})
