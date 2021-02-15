@@ -47,6 +47,7 @@
         </div>
       </div>
     </div>
+    {% endfor %}
     <div class="pagination text-white d-flex">
       <span class="step-links mx-auto border border-info rounded p-2">
         {% if page_obj.has_previous %}
@@ -72,7 +73,6 @@
         {% endif %}
       </span>
     </div>
-    {% endfor %}
   <!-- prettier-ignore -->
   {% else %}
     <div class="container" align="center">
