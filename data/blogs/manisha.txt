@@ -1,0 +1,47 @@
+Cogpy
+Manishareddy
+Manishareddy
+Dec 20, 2020·5 min read
+
+-A cognitive assistant using Python
+Image for post
+About:
+Cogpy is an Artificial Intelligent System with Cognitive abilities. The main idea of the Cogpy is to fabricate an assistant with emotional intelligence, so that the assistant can also recognise human emotions accurately with required speed in limited time. It will be built in a way that it could facilitate amicable assistance and quick response for human emotions too. It measures the neurological immersion levels to recognize the voice patterns of different kinds of emotions along with the feature of Natural Language Processing (NLP), that normal assistants like Siri and Alexa had.
+Role and Demand in the Market
+There are many circumstances where assistants like Cogpy comes into play in today’s world. Some of them are mentioned below:
+1.There is a huge requirement for assistants with emotional intelligence in fabrication of collaborative robots also called as cobots, which are intended for direct human interaction
+Sample usage of Cogpy in cobots:
+If suppose cobots are used as work assistants in industries, and if one of the human workers gets injured, capturing such kind of thing, emotional intelligence of Cogpy can immediately commands cobot to respond with a first aid or related solutions.
+2.There is also a great demand for assistants embedded with cognitive abilities in the field of customer service in many business fields. Many businessmen set into dilemma in choosing the best assistant with optimal performance. Cogpy makes their mind clear of such confusion.
+Let us analyse a situation:
+If a normal chat bot is used for customer service, it will provide multiple options for customer to select one of them, whereas the assistant like Cogpy can recognize the point requirement of the customer by analysing the raised query by its cognition. By inputting this additional feature into the chat bot, it can proactively pick out the top needed from all the relevant data and that comes out as the perfect response for the customer.
+Relevant Types of Assistants:
+The assistants like google assistant, Siri, Alexa and Cortana are preferably used in now-a-days. But when Cogpy gets introduced into the market, there is nothing dubious in stating that people will prefer Cogpy over all of them.
+What makes COGPY unique?
+Above mentioned assistants SUGGESTS A SOLUTION for any query by providing relevant searched outs to the user. Whereas, the Cogpy DECLARES THE SOLUTION by providing only an optimal solution to the user, which reduces the work of user in sorting out all the solutions to choose one. In the first case the human intervention is must to finalise the solution but in the second case the Cogpy itself fetches the final one and intervention of humans in not always necessary.
+Major recommended Applications of Cogpy:
+Cogpy is useful in one or the other thing for every human being. But I specifically recommend automated Cogpy worked by the principle of RPA in some critical and sensitive situations where our human brain might get struck with fear and terror.
+1. for example: A man has a mobile enabled with automated Cogpy assistant. He starts driving a car for a particular destination. Here the Cogpy can also access the location automatically. If he met with an accident, and if he is in a condition that he couldn’t speak at all. So, working of normal assistant fails in this case, since there is no human intervention. But Cogpy plays its crucial role in saving that person.
+1.1. Cogpy automatically recognises the creaking sounds of the accident and crying sounds with its EI.
+1.2. It also founds that the current location is not changing (static) which makes it to perceive that the vehicle is not moving. So, it also checks that the static location is same as destination or not. If it found them different, then it predicts that there might be an accident on the way and speaks out for the confirmation from the user as “Are you in trouble?”. “at this moment, it works according to the three types of responses from the user, which also includes the case where he could not intervene”.
+1st: Yes (calls the Ambulance)
+2nd: No (again starts directing to the destination)
+3rd: No Answer (calls the Ambulance)
+Image for post
+Image for post
+2.I also recommend women to use such type of devices for their safety. Because, Cogpy can automatically predict the situations when a girl gets abducted by the rapists or kidnappers by recognizing the girl’s emotions at that situation, like screaming for help. Cogpy predicts the screaming voice pattern as an alert and something is wrong! Now, same as before, it asks for confirmation as “Are you in trouble?” and calls the helpline according to the above three conditions.
+Required Knowledge
+-To implement all of the above tasks of Cogpy, we should first make the analysis of relation between cognitive psychology and artificial intelligence.
+-The study of Machine Learning and RPA (Robotic process automation) to facilitate Cogpy to work automatically without human interference after activation.
+-The study of Natural Language Processing and Voice patterns for emotional resonance.
+-Requirement of cloud computing and IoT for working together by using the other data in the cloud.
+-Need of software for measurement of neurological immersion levels which plays a main role in recognizing the emotion.
+-Implementation of code in python, which may also include the development of python further.
+Estimated Budget
+-The one and only expensive budget required for this start-up is a super intelligent brain and wise logics for implementation of the mentioned tasks into the Cogpy.
+-As per my research knowledge, minimum charges for hosting a cloud is 479 rupees for one month. So, based on the complexity of the Cogpy assistant the cloud charges are applicable.
+Risk Analysis
+-Takes too much of time to implement.
+-Sometimes emotional resonance might not be that accurate if there are multiple voices and emotions might get misunderstood.
+Milestone and Timeline
+We cannot expect a particular time for fabricating a Cogpy, because it needs some advanced technologies which are not even available in present generation. Hopefully, we can implement this with good accuracy in upcoming years by using the then known technologies. Artificial Super Intelligence comes on the screen in coming generations, where we can also make a complete Cogpy which can also detect emotions by decoding the facial expressions in additional to the simple Cogpy which can only detect emotions by voice patterns which we already discussed in this blog.
