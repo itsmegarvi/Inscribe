@@ -2,6 +2,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block additional_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/customuser_detail.css' %}" />
 {% endblock %}
 <!-- prettier-ignore -->
 {% block title %}
@@ -14,7 +15,7 @@ Inscribe | Account Information
     <div class="card border-warning bg-dark mx-auto">
       <div class="card-header">
         <div class="display-6">{{ object.full_name }}</div>
-        <div>
+        <div ">
           <strong>{{ object.username }}</strong>
         </div>
       </div>
@@ -46,12 +47,23 @@ Inscribe | Account Information
     {% csrf_token %}
     <button type="submit" class="btn btn-primary btn-block my-2">Post</button>
   </form>
-  <div>
-    <a href="{% url 'notes:public' pk=object.pk %}">Your public notes</a>
-    <a href="{% url 'notes:private' pk=object.pk %}">Your private notes</a>
-    <a href="{% url 'notes:bookmarks' pk=object.pk %}">Your bookmarked notes</a>
+  <div class="my-5 p-2 rounded-lg text-info text-hover-color">
+    <a href="{% url 'notes:public' pk=object.pk %}">
+      <button class = 'btn-special draw-border'>Your public notes</button>
+    </a>
+    <p></p>
+    <a href="{% url 'notes:private' pk=object.pk %}">
+      <button class = 'btn-special draw-border'>Your private notes</button>
+    </a>
+    <p></p>
+    <a href="{% url 'notes:bookmarks' pk=object.pk %}">
+      <button class = 'btn-special draw-border'>Your bookmarked notes</button>
+    </a>
+    <p></p>
     {% if user.pk == object.pk %}
-    <a href="{% url 'notes:drafts' %}">Your draft notes</a>
+    <a href="{% url 'notes:drafts' %}">
+      <button class = 'btn-special draw-border'>Your draft notes</button>
+    </a>
     {% endif %}
   </div>
 </div>
