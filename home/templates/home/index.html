@@ -50,7 +50,7 @@ Inscribe
     </div>
     <div
       id="typewriter"
-      class="display-5 mx-5"
+      class="mx-3"
       style="font-family: 'Indie Flower', cursive"
     ></div>
     <div>
@@ -61,7 +61,9 @@ Inscribe
           class="mx-auto"
           href="{% url 'notes:create' %}"
         >
-          <button style="font-weight: bolder" class="btn-special draw-border">NEW NOTE</button>
+          <button style="font-weight: bolder" class="btn-special draw-border">
+            NEW NOTE
+          </button>
         </a>
         {% else %}
         <a
@@ -69,7 +71,9 @@ Inscribe
           class="mx-auto"
           href="{% url 'home:playground' %}"
         >
-          <button style="font-weight: bolder" class="btn-special draw-border">TRY NOW</button>
+          <button style="font-weight: bolder" class="btn-special draw-border">
+            TRY NOW
+          </button>
         </a>
         {% endif %}
       </div>
