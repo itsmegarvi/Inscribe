@@ -1,31 +1,27 @@
-.display-6{
-    font-variant:initial;
-    font-size: 3.2em;
-    color:rgb(187, 103, 103);
-    font-family:Arial;
-    font-weight: bold;
+.display-6 {
+  font-variant: initial;
+  font-size: 3.2em;
+  color: rgb(187, 103, 103);
+  font-family: Arial;
+  font-weight: bold;
 }
 .card-title {
-    font-size: 2.2em;
-    font-family: cursive;
-    color:rgba(252, 235, 4, 0.97) ;
+  font-size: 2.2em;
+  font-family: cursive;
+  color: rgba(252, 235, 4, 0.97);
 }
-.card-text{
-    font-size: 2em;
-    font-family: cursive;
-    color:rgba(252, 235, 4, 0.97) ;
-}
- 
-#follower-count{
-    font-size: 1.5em;
-    color: rgb(250, 243, 243);
+.card-text {
+  font-size: 2em;
+  font-family: cursive;
+  color: rgba(252, 235, 4, 0.97);
 }
 
-.text-hover-color{
-    align-items: inherit;
-    font-size: 2em;
-}
-#user-icon{
-    color:rgba(252, 235, 4, 0.97) ;
+#follower-count {
+  font-size: 1.5em;
+  color: rgb(250, 243, 243);
 }
 
+.text-hover-color {
+  align-items: inherit;
+  font-size: 2em;
+}
