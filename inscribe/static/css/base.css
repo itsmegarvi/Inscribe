@@ -54,7 +54,8 @@ body {
   transition: color 0.25s 0.0833333333s;
   position: relative;
 }
-.draw-border::before, .draw-border::after {
+.draw-border::before,
+.draw-border::after {
   border: 0 solid transparent;
   box-sizing: border-box;
   content: "";
@@ -76,7 +77,8 @@ body {
 .draw-border:hover {
   color: #ffe593;
 }
-.draw-border:hover::before, .draw-border:hover::after {
+.draw-border:hover::before,
+.draw-border:hover::after {
   border-color: #ffe593;
   transition: border-color 0s, width 0.25s, height 0.25s;
   width: 100%;
@@ -102,3 +104,6 @@ body {
   outline: 2px dotted #55d7dc;
 }
 
+.text-black {
+  color: black;
+}
