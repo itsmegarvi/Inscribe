@@ -24,4 +24,5 @@ urlpatterns = [
         views.CustomUserPasswordChangeDoneView.as_view(),
         name="password-change-done",
     ),
+    path("follow/<int:following_id>/", views.toggle_following, name="toggle-following"),
 ]
